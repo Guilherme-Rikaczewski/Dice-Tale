@@ -21,6 +21,16 @@ Dice Tale é um projeto com o objetivo de prestar o serviço de um hub online pa
 
 ---
 
+## 📥 Instalação
+```bash
+- git clone https://github.com/Guilherme-Rikaczewski/Dice-Tale.git
+
+- cd Dice-Tale
+
+- npm install
+
+```
+---
 ## 📖 Colaboradores
 - Eduardo Luis Franczak
 - Guilherme Caique Rikaczewski
