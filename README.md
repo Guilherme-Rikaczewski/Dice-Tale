@@ -14,3 +14,16 @@ Dice Tale é um projeto com o objetivo de prestar o serviço de um hub online pa
 ---
 
 ## 🛠 Tecnologias Utilizadas
+<img src="assets/readme/nodejs-img.webp" alt="Ícone Node.js" width="50px">
+<img src="assets/readme/react-icon.webp" alt="Ícone React" width="50px">
+<img src="assets/readme/bootstrap_logo.webp" alt="Ícone Bootstrap" width="50px">
+<img src="assets/readme/postgresql_elephant.webp" alt="Ícone PostgreSQL" width="50px">
+
+---
+
+## 📖 Colaboradores
+- Eduardo Luis Franczak
+- Guilherme Caique Rikaczewski
+- Kainã Gulecz Czezeski
+- Maria Eduarda Senff de Souza
+- Matheus Luiz Amazonas
