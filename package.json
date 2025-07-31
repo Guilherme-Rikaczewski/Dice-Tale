@@ -1,0 +1,23 @@
+{
+  "name": "dice-tale-aula",
+  "version": "1.0.0",
+  "description": "Dice Tale é um projeto com o objetivo de prestar o serviço de um hub online para RPGs de mesa, para que jogadores possam interagir com as ferramentas adequadas, de modo a oferecer uma experiência completa para os jogadores.",
+  "homepage": "https://github.com/Guilherme-Rikaczewski/Dice-Tale#readme",
+  "bugs": {
+    "url": "https://github.com/Guilherme-Rikaczewski/Dice-Tale/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guilherme-Rikaczewski/Dice-Tale.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
