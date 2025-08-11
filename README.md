@@ -9,7 +9,6 @@ Dice Tale é um projeto com o objetivo de prestar o serviço de um hub online pa
 - Tabletop personalizavel e interativo em tempo real.
 - Fichas automatizadas com sistemas como D&D 5e.
 - Gerenciamento completo de grupos de jogo.
-- teste
 
 ---
 
