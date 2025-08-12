@@ -8,6 +8,8 @@ async function getAllUsers() {
     }
 };
 
+module.exports = { getAllUsers };
+
 async function insertProfilePicture(imageName, imagePath, imageSize) {
     try {
         const sql = "insert into profile_pictures (image_name, image_path, image_size) VALUES ($1, $2, $3) RETURNING *;";
@@ -31,4 +33,4 @@ async function inserUser(idProfilePicPath, emailUser, username, hoursPlayed, pas
 
 // insertProfilePicture('teste', 'C:/user/teste', 0)
 // inserUser(1, 'dicetale@gmail.com', 'diceteste', 70, 'aaaaaaaaaaaaaaaaaaaaaaaa')
-getAllUsers();
+// getAllUsers();
