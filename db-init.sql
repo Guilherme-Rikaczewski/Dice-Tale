@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS games (
 CREATE TABLE IF NOT EXISTS users (
     id_user SERIAL PRIMARY KEY,
     id_profile_pic_path INTEGER NOT NULL,
-    email_user VARCHAR(50) NOT NULL,
+    email_user VARCHAR(50) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
-    created_at DATE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     hours_played INTEGER NOT NULL,
     password_hash TEXT NOT NULL,
     FOREIGN KEY (id_profile_pic_path) REFERENCES profile_pictures (id_profile_pic)
