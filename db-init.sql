@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS games (
 
 CREATE TABLE IF NOT EXISTS users (
     id_user SERIAL PRIMARY KEY,
-    id_profile_pic_path INTEGER NOT NULL,
+    id_profile_pic_path INTEGER,
     email_user VARCHAR(50) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
