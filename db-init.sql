@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS profile_pictures (
 
 CREATE TABLE IF NOT EXISTS games (
     id_game SERIAL PRIMARY KEY,
-    id_game_image_games INTEGER NOT NULL,
+    id_game_image_games INTEGER,
     name_game VARCHAR(50) NOT NULL, 
     page_link TEXT NOT NULL,
     game_code VARCHAR(12) NOT NULL,
-    FOREIGN KEY (id_game_image_games) REFERENCES game_images (id_game_image)
+    FOREIGN KEY (id_game_image_games) REFERENCES game_images (id_game_image) 
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS game_rules (
 
 CREATE TABLE IF NOT EXISTS sheets (
     id_sheet SERIAL PRIMARY KEY,
-    id_game_sheets INT NOT NULL,
+    id_game_sheets INT,
     id_user_sheets INT NOT NULL,
     name_sheet VARCHAR(50),
     bio TEXT,
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS sheets (
     wisdom_saving_numeric_bonus INT,
     charisma_saving_numeric_bonus INT,
     FOREIGN KEY (id_game_sheets) REFERENCES games(id_game),
-    FOREIGN KEY (id_user_sheets) REFERENCES users(id_user)
+    FOREIGN KEY (id_user_sheets) REFERENCES users(id_user) ON DELETE CASCADE
 );
 
 
@@ -285,7 +285,7 @@ CREATE TABLE IF NOT EXISTS other_skills_sheets (
     id_sheets_other_skill INT NOT NULL,
     other_skill_type VARCHAR(50) NOT NULL,
     skill_text TEXT NOT NULL,
-    FOREIGN KEY (id_sheets_other_skill) REFERENCES sheets(id_sheet)
+    FOREIGN KEY (id_sheets_other_skill) REFERENCES sheets(id_sheet) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS tokens (
@@ -306,8 +306,8 @@ CREATE TABLE IF NOT EXISTS tokens (
     hex_code_first_bar VARCHAR(8) NOT NULL,
     hex_code_second_bar VARCHAR(8) NOT NULL,
     hex_code_third_bar VARCHAR(8) NOT NULL,
-    FOREIGN KEY (id_games_token) REFERENCES sheets(id_sheet),
-    FOREIGN KEY (id_sheets_token) REFERENCES games(id_game)
+    FOREIGN KEY (id_games_token) REFERENCES sheets(id_sheet) ON DELETE CASCADE,
+    FOREIGN KEY (id_sheets_token) REFERENCES games(id_game) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS tokens_images (
@@ -325,4 +325,12 @@ CREATE TABLE IF NOT EXISTS tokens_access (
     id_user_access INT NOT NULL,
     FOREIGN KEY (id_token_access) REFERENCES tokens(id_token) ON DELETE CASCADE,
     FOREIGN KEY (id_user_access) REFERENCES users(id_user)
+);
+
+CREATE TABLE IF NOT EXISTS recent_sheets (
+    id_recent_sheets SERIAL PRIMARY KEY,
+    id_user_recent_sheets INT NOT NULL,
+    id_sheets_recent_sheets INT,
+    FOREIGN KEY (id_user_recent_sheets) REFERENCES users(id_user) ON DELETE CASCADE,
+    FOREIGN KEY (id_sheets_recent_sheets) REFERENCES users(id_sheet) ON DELETE CASCADE
 );
