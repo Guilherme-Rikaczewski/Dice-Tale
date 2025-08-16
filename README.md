@@ -13,10 +13,12 @@ Dice Tale é um projeto com o objetivo de prestar o serviço de um hub online pa
 ---
 
 ## 🛠 Tecnologias Utilizadas
-<img src="assets/readme/nodejs-img.webp" alt="Ícone Node.js" width="50px">
-<img src="assets/readme/react-icon.webp" alt="Ícone React" width="50px">
-<img src="assets/readme/bootstrap_logo.webp" alt="Ícone Bootstrap" width="50px">
-<img src="assets/readme/postgresql_elephant.webp" alt="Ícone PostgreSQL" width="50px">
+<div style="display: inline-block;">
+<img src="docs/images/nodejs-img.webp" alt="Ícone Node.js" width="50px">
+<img src="docs/images/react-icon.webp" alt="Ícone React" width="50px">
+<img src="docs/images/bootstrap_logo.webp" alt="Ícone Bootstrap" width="50px">
+<img src="docs/images/postgresql_elephant.webp" alt="Ícone PostgreSQL" width="50px">
+</div>
 
 ---
 
