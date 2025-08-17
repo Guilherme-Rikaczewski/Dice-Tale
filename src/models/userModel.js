@@ -39,6 +39,9 @@ module.exports = (sequelize)=>{
             allowNull: false,
             field: 'password_hash'
         }
+    }, {
+        tableName: 'users',
+        timestamps: false
     })
 };
 
