@@ -1,6 +1,7 @@
 const sequelize = require('../config/database')
 const User = require('./userModel')(sequelize)
+const ProfilePic = require('./profilePicModel')(sequelize)
 
-console.log(User)
+User.belongsTo(ProfilePic, { foreignKey: 'idProfilePic' })
 
 module.exports = { User, sequelize}
