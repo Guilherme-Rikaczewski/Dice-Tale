@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS profile_pictures (
 CREATE TABLE IF NOT EXISTS games (
     id_game SERIAL PRIMARY KEY,
     id_game_image_games INTEGER,
-    name_game VARCHAR(50) NOT NULL, 
+    name_game VARCHAR(100) NOT NULL, 
     page_link TEXT NOT NULL,
-    game_code VARCHAR(12) NOT NULL,
+    game_code TEXT NOT NULL,
     FOREIGN KEY (id_game_image_games) REFERENCES game_images (id_game_image) 
 );
 
