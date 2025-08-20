@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+article {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5vh;
+}
+
+.errorlogo{
+  width: 20%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorlogo img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.mensagem404{
+    font-family: 'Inter', sans-serif;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+}
+
+.codigo404 {
+  color: #61D9BA;
+  font-size: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
