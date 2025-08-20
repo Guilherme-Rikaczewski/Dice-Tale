@@ -3,49 +3,49 @@
 body, html {
   height: 100%;
   margin: 0;
-  background-color: #363547;
 }
 
 main {
   height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#errorlogo{
-
-  width: 300px;
-  height: 300px;
+article {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  /* top: 80px; */
-
+  flex-direction: column;
+  margin-top: 5vh;
 }
 
-#errorlogo img {
+.errorlogo{
+  width: 20%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorlogo img {
   max-width: 100%;
   max-height: 100%;
 }
 
-#mensagem404{
+.mensagem404{
     font-family: 'Inter', sans-serif;
     color: white;
     font-size: 20px;
     text-align: center;
+    justify-content: center;
 }
 
-#codigo404 {
+.codigo404 {
   color: #61D9BA;
   font-size: 72px;
   display: flex;
-  position: relative;
-  left: 73px;
+  align-items: center;
+  justify-content: center;
 }
-
-/* #mensagemerro404 {
-  margin-top: -50px; 
-
-} */
