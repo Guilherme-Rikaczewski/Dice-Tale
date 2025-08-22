@@ -9,6 +9,21 @@ module.exports=(sequelize)=>{
             primaryKey: true,
             autoIncrement: true,
             field: 'id_gamerules'
+        },
+        idUser: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_user_gamerules'
+        },
+        idRoles: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_roles_gamerules'
+        },
+        idGames: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_games_gamerules'
         }
     },
     {
