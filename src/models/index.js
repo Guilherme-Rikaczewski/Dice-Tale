@@ -4,8 +4,29 @@ const ProfilePic = require('./profilePicModel')(sequelize)
 const Game = require('./gameModel')(sequelize)
 const GameImage = require('./gameImageModel')(sequelize)
 const Role = require('./roleModel')(sequelize)
+const GameRule = require('./gameRuleModel')(sequelize)
 
+// belongsTo --> usado no lado onde a FK está --> referencia fk da tabela sendo usada
+// hasMany --> usado no lado que é referenciado pela FK --> referencia fk da tabela passada como parametro
+
+// Relações de User
 User.belongsTo(ProfilePic, { foreignKey: 'idProfilePic' })
-Game.belongsTo(GameImage, { foreignKey: 'idGameImage' })
+User.hasMany(GameRule, { foreignKey: 'idUser' })
 
-module.exports = { User, sequelize}
+// Relações de Game
+Game.belongsTo(GameImage, { foreignKey: 'idGameImage' })
+Game.hasMany(GameRule, { foreignKey: 'idGame' })
+
+// Relações de GameImage
+GameImage.hasOne(Game, { foreignKey: 'idGameImage' })
+
+// Relações de Role
+Role.hasMany(GameRule, { foreignKey: 'idRole' })
+
+// Relações de GameRule
+GameRule.belongsTo(User, { foreignKey:'idUser' })
+GameRule.belongsTo(Role, { foreignKey: 'idRole' })
+GameRule.belongsTo(Game, { foreignKey: 'idGame' })
+
+
+module.exports = { User, ProfilePic, Game, GameImage, Role, GameRule, sequelize}

@@ -15,12 +15,12 @@ module.exports=(sequelize)=>{
             allowNull: false,
             field: 'id_user_gamerules'
         },
-        idRoles: {
+        idRole: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: 'id_roles_gamerules'
         },
-        idGames: {
+        idGame: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: 'id_games_gamerules'
