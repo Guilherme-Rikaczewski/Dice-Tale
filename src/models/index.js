@@ -15,10 +15,13 @@ User.hasMany(GameRule, { foreignKey: 'idUser' })
 
 // Relações de Game
 Game.belongsTo(GameImage, { foreignKey: 'idGameImage' })
-Game.hasMany(GameRule)
+Game.hasMany(GameRule, { foreignKey: 'idGame' })
 
 // Relações de GameImage
 GameImage.hasOne(Game, { foreignKey: 'idGameImage' })
+
+// Relações de Role
+Role.hasMany(GameRule, { foreignKey: 'idRole' })
 
 // Relações de GameRule
 GameRule.belongsTo(User, { foreignKey:'idUser' })
@@ -26,4 +29,4 @@ GameRule.belongsTo(Role, { foreignKey: 'idRole' })
 GameRule.belongsTo(Game, { foreignKey: 'idGame' })
 
 
-module.exports = { User, sequelize}
+module.exports = { User, ProfilePic, Game, GameImage, Role, GameRule, sequelize}
