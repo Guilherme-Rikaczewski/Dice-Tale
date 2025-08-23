@@ -1,5 +1,6 @@
 const { createClient } = require('redis')
 const crypto = require('crypto')
+const { notExist } = require('../utils/validators')
 require('dotenv').config()
 
 const client = createClient({
@@ -10,7 +11,7 @@ const client = createClient({
 const REFRESH_TTL_SECONDS = 60*60*24*7
 
 // refresh token
-function genereteOpaqueToken() {
+function generateOpaqueToken() {
     return crypto.randomBytes(64).toString('hex')
 }
 
@@ -22,21 +23,24 @@ function sha256(str){
 // salva refresh token no redis
 async function saveRefreshToken(userId, refreshToken) {
     const tokenHash = sha256(refreshToken)
-    const key = `refresh:${userId}:${tokenHash}`
-    await client.setEx(key, REFRESH_TTL_SECONDS, '1')
+    const key = `refresh:${tokenHash}`
+    await client.setEx(key, REFRESH_TTL_SECONDS, userId)
 }
 
 // verifica se o refresh token existe
-async function validateRefreshToken(userId, refreshToken) {
+async function validateRefreshToken(refreshToken) {
     const tokenHash = sha256(refreshToken)
-    const key = `refresh:${userId}:${tokenHash}`
-    const exists = await client.exists(key)
-    return exists === 1
+    const key = `refresh:${tokenHash}`
+    const userId = await client.get(key)
+    if (notExist(userId)){ return null }
+    return userId
 }
 
 // delete refresh token do redis
-async function deleteRefreshToken(userId, refreshToken) {
+async function deleteRefreshToken(refreshToken) {
     const tokenHash = sha256(refreshToken)
-    const key = `refresh:${userId}:${tokenHash}`
+    const key = `refresh:${tokenHash}`
     await client.del(key)
 }
+
+module.exports = { generateOpaqueToken, saveRefreshToken, validateRefreshToken, deleteRefreshToken }
