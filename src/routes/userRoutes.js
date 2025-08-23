@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.post('/', userController.createUser)
 router.get('/:id', userController.getUserById)
-router.patch('/:id', userController.updateUser)
+router.put('/:id', userController.updateUser)
 router.delete('/:id', userController.deleteUser)
 
 module.exports = router

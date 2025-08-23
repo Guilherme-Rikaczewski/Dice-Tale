@@ -1,8 +1,9 @@
 const { DataTypes, Model } = require("sequelize")
+const bcrypt = require('bcrypt')
 
 class User extends Model{}
 
-module.exports = (sequelize)=>{
+module.exports = (sequelize) => {
     return User.init({
         id: {
             type: DataTypes.INTEGER,
@@ -18,7 +19,11 @@ module.exports = (sequelize)=>{
             type: DataTypes.STRING(256),
             unique: true,
             allowNull: false,
-            field: 'email_user'
+            field: 'email_user',
+            validate: {
+                isEmail: true,
+                notEmpty: true
+            }
         },
         username: {
             type: DataTypes.STRING(50),
@@ -41,13 +46,25 @@ module.exports = (sequelize)=>{
             allowNull: false,
             field: 'password_hash'
         }
-    }, 
-    {
-        sequelize,
-        modelName: 'User',
-        tableName: 'users',
-        timestamps: false
-    })
+    },
+        {
+            sequelize,
+            modelName: 'User',
+            tableName: 'users',
+            timestamps: false,
+            hooks: {
+                beforeCreate: async (user) => {
+                    const salt = await bcrypt.genSalt(12)
+                    user.password = await bcrypt.hash(user.password, salt)
+                },
+                beforeUpdate: async (user) => {
+                    if (user.changed('password')) {
+                        const salt = await bcrypt.genSalt(12)
+                        user.password = await bcrypt.hash(user.password, salt)
+                    }
+                }
+            }
+        })
 };
 
 
