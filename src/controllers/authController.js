@@ -66,7 +66,7 @@ async function refresh(req, res) {
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         )
-        res.cookie("refreshToken", refreshToken, {
+        res.cookie("refreshToken", newRefreshToken, {
             httpOnly: true,
             secure: false,  // MUDA PARA TRUE QUANDO FOR RODAR EM PRODUÇÃO
             sameSite: "strict",
@@ -78,3 +78,4 @@ async function refresh(req, res) {
     }
 }
 
+module.exports={ login, refresh }

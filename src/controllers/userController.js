@@ -14,10 +14,10 @@ async function createUser(req, res) {
 // testado
 async function getUserById(req, res) {
     try{
-        if (isIdInvalid(req.params.id)){
+        if (isIdInvalid(req.userId)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const user = await User.findByPk(req.params.id)
+        const user = await User.findByPk(req.userId)
         if (notExist(user)) {
             return res.status(404).json({error: 'Sorry, user not found'})
         }
@@ -31,11 +31,11 @@ async function getUserById(req, res) {
 // testado 
 async function updateUser(req, res) {
     try{
-        if (isIdInvalid(req.params.id)){
+        if (isIdInvalid(req.userId)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
             // return console.log('id invalido')
         }
-        const user = await User.findByPk(req.params.id)
+        const user = await User.findByPk(req.userId)
         if (notExist(user)) {
             return res.status(404).json({error: 'Sorry, user not found'})
             // return console.log('nao existe')
@@ -53,14 +53,13 @@ async function updateUser(req, res) {
     }
 }
 
-// updateUser({body:{password: 'username1teste'}, params:{id:1}})
 
 async function deleteUser(req, res) {
     try{
-        if (isIdInvalid(req.params.id)){
+        if (isIdInvalid(req.userId)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const user = User.findByPk(req.params.id)
+        const user = User.findByPk(req.userId)
         if (notExist(user)){
             return res.status(404).json({error: 'Sorry, user not found'})
         }
