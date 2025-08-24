@@ -12,8 +12,26 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       # Persistência dos dados
-      #- ./pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
       # Script de inicialização
       - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
     restart: always
+  
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "PING"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  redis-data:
+
   
