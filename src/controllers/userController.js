@@ -59,7 +59,7 @@ async function deleteUser(req, res) {
         if (isIdInvalid(req.userId)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const user = User.findByPk(req.userId)
+        const user = await User.findByPk(req.userId)
         if (notExist(user)){
             return res.status(404).json({error: 'Sorry, user not found'})
         }

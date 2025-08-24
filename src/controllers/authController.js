@@ -30,12 +30,13 @@ async function login(req, res) {
         await saveRefreshToken(user.id, refreshToken)
 
         // envia dados da sessão para login
+        res.setHeader("Authorization", `Bearer ${token}`)
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: false,  // MUDA PARA TRUE QUANDO FOR RODAR EM PRODUÇÃO
             sameSite: "strict",
             maxAge: (7*24*60*60*1000)
-        }).status(200).json({token})
+        }).status(200).json({accessToken:token})
 
 
     } catch (err) {

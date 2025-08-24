@@ -6,6 +6,7 @@ require('dotenv').config()
 const client = createClient({
     url: `redis://default:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
 })
+client.connect()
 
 // tempo de duração em segundos de um refresh token --> 7 dias
 const REFRESH_TTL_SECONDS = 60*60*24*7
@@ -24,14 +25,14 @@ function sha256(str){
 async function saveRefreshToken(userId, refreshToken) {
     const tokenHash = sha256(refreshToken)
     const key = `refresh:${tokenHash}`
-    await client.setEx(key, REFRESH_TTL_SECONDS, userId)
+    await client.setEx(key, REFRESH_TTL_SECONDS, userId.toString())
 }
 
 // verifica se o refresh token existe
 async function validateRefreshToken(refreshToken) {
     const tokenHash = sha256(refreshToken)
     const key = `refresh:${tokenHash}`
-    const userId = await client.get(key)
+    const userId = parseInt(await client.get(key), 10)
     if (notExist(userId)){ return null }
     return userId
 }
