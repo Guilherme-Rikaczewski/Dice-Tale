@@ -1,9 +1,9 @@
 const express = require('express')
-const jwt = require('jsonwebtoken')
 const authController = require('../controllers/authController')
+const {rateLimiter} = require("../utils/rateLimiter")
 const router = express.Router()
 
-router.post('/login', authController.login)
+router.post('/login', rateLimiter, authController.login)
 router.patch('/refresh', authController.refresh)
 
 
