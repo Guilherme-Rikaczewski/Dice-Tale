@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS sheets (
     proficiencies JSONB NOT NULL DEFAULT '{}', -- proeficiencias
     other_skills JSONB NOT NULL DEFAULT '{}', -- outras proeficiencias e idiomas
     items JSONB NOT NULL DEFAULT '{}', -- itens da ficha
+    last_accessed TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (id_game_sheets) REFERENCES games(id_game),
     FOREIGN KEY (id_user_sheets) REFERENCES users(id_user) ON DELETE CASCADE
 );
@@ -122,6 +123,7 @@ CREATE TABLE IF NOT EXISTS recent_sheets (
     id_recent_sheets SERIAL PRIMARY KEY,
     id_user_recent_sheets INT NOT NULL,
     id_sheets_recent_sheets INT,
+    accessed_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (id_user_recent_sheets) REFERENCES users(id_user) ON DELETE CASCADE,
     FOREIGN KEY (id_sheets_recent_sheets) REFERENCES sheets(id_sheet) ON DELETE CASCADE
 );
