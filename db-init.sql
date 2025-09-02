@@ -95,21 +95,19 @@ CREATE TABLE IF NOT EXISTS tokens (
     image_token_path TEXT NOT NULL DEFAULT '/path/da/imagem/padrao.png',
     token_name VARCHAR(50),
     show_token_name_check BOOLEAN NOT NULL DEFAULT FALSE,
-    first_bar_current_value INT,
-    first_bar_max_value INT,
-    first_bar__col_sheet_link VARCHAR(50),
-    second_bar_current_value INT,
-    second_bar_max_value INT,
-    second_bar__col_sheet_link VARCHAR(50),
-    third_bar_current_value INT,
-    third_bar_max_value INT,
-    third_bar__col_sheet_link VARCHAR(50),
-    hex_code_first_bar VARCHAR(8) NOT NULL,
-    hex_code_second_bar VARCHAR(8) NOT NULL,
-    hex_code_third_bar VARCHAR(8) NOT NULL,
     FOREIGN KEY (id_games_token) REFERENCES games(id_game) ON DELETE CASCADE,
     FOREIGN KEY (id_sheets_token) REFERENCES sheets(id_sheet) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS token_bars (
+    id_bar SERIAL PRIMARY KEY,
+    id_token_bar INT NOT NULL,
+    current_value INT,
+    max_value INT,
+    data_sheet_link VARCHAR(50),
+    hex_code VARCHAR(8) NOT NULL,
+    FOREIGN KEY (id_token_bar) REFERENCES tokens(id_token) ON DELETE CASCADE
+)
 
 CREATE TABLE IF NOT EXISTS tokens_access (
     id_access SERIAL PRIMARY KEY,
