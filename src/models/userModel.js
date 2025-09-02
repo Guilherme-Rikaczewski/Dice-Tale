@@ -54,13 +54,13 @@ module.exports = (sequelize) => {
             timestamps: false,
             hooks: {
                 beforeCreate: async (user) => {
-                    const salt = await bcrypt.genSalt(12)
-                    user.password = await bcrypt.hash(user.password, salt)
+                    const saltRounds = 12 //custo de processamento da hash
+                    user.password = await bcrypt.hash(user.password, saltRounds)
                 },
                 beforeUpdate: async (user) => {
                     if (user.changed('password')) {
-                        const salt = await bcrypt.genSalt(12)
-                        user.password = await bcrypt.hash(user.password, salt)
+                        const saltRounds = 12
+                        user.password = await bcrypt.hash(user.password, saltRounds)
                     }
                 }
             }
