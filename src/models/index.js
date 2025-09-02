@@ -5,6 +5,12 @@ const Game = require('./gameModel')(sequelize)
 const GameImage = require('./gameImageModel')(sequelize)
 const Role = require('./roleModel')(sequelize)
 const GameRule = require('./gameRuleModel')(sequelize)
+// precisa criar as relações
+const Sheet = require('./sheetModel')(sequelize)
+const RecentSheet = require('./recentSheet')(sequelize)
+const Token = require('./tokenModel')(sequelize)
+const TokenAccess = require('./tokenAccessModel')(sequelize)
+const TokenBar = require('./tokenBarModel')(sequelize)
 
 // belongsTo --> usado no lado onde a FK está --> referencia fk da tabela sendo usada
 // hasMany --> usado no lado que é referenciado pela FK --> referencia fk da tabela passada como parametro
@@ -29,4 +35,17 @@ GameRule.belongsTo(Role, { foreignKey: 'idRole' })
 GameRule.belongsTo(Game, { foreignKey: 'idGame' })
 
 
-module.exports = { User, ProfilePic, Game, GameImage, Role, GameRule, sequelize}
+module.exports = { 
+    User, 
+    ProfilePic, 
+    Game, 
+    GameImage, 
+    Role, 
+    GameRule,
+    Sheet,
+    RecentSheet,
+    Token,
+    TokenAccess,
+    TokenBar,
+    sequelize
+}
