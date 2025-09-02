@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS tokens_access (
 CREATE TABLE IF NOT EXISTS recent_sheets (
     id_recent_sheets SERIAL PRIMARY KEY,
     id_user_recent_sheets INT NOT NULL,
-    id_sheets_recent_sheets INT,
+    id_sheets_recent_sheets INT NOT NULL,
     accessed_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (id_user_recent_sheets) REFERENCES users(id_user) ON DELETE CASCADE,
     FOREIGN KEY (id_sheets_recent_sheets) REFERENCES sheets(id_sheet) ON DELETE CASCADE
