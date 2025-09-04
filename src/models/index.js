@@ -2,12 +2,10 @@ const sequelize = require('../config/database')
 const User = require('./userModel')(sequelize)
 const ProfilePic = require('./profilePicModel')(sequelize)
 const Game = require('./gameModel')(sequelize)
-const GameImage = require('./gameImageModel')(sequelize)
 const Role = require('./roleModel')(sequelize)
 const GameRule = require('./gameRuleModel')(sequelize)
 // precisa criar as relações
 const Sheet = require('./sheetModel')(sequelize)
-const RecentSheet = require('./recentSheet')(sequelize)
 const Token = require('./tokenModel')(sequelize)
 const TokenAccess = require('./tokenAccessModel')(sequelize)
 const TokenBar = require('./tokenBarModel')(sequelize)
@@ -20,10 +18,13 @@ const View = require('./viewModel')(sequelize)
 // Relações de User
 User.belongsTo(ProfilePic, { foreignKey: 'idProfilePic' })
 User.hasMany(GameRule, { foreignKey: 'idUser' })
+User.hasMany(Sheet, { foreignKey: 'userId' })
+User.hasMany(TokenAccess, { foreignKey: 'userId' })
 
 // Relações de Game
-Game.belongsTo(GameImage, { foreignKey: 'idGameImage' })
 Game.hasMany(GameRule, { foreignKey: 'idGame' })
+Game.hasMany(Sheet, { foreignKey: 'gameId' })
+Game.hasMany(Token, { foreignKey: 'tokenId' })
 
 // Relações de GameImage
 GameImage.hasOne(Game, { foreignKey: 'idGameImage' })
@@ -41,11 +42,9 @@ module.exports = {
     User, 
     ProfilePic, 
     Game, 
-    GameImage, 
     Role, 
     GameRule,
     Sheet,
-    RecentSheet,
     Token,
     TokenAccess,
     TokenBar,

@@ -4,19 +4,12 @@ CREATE TABLE IF NOT EXISTS roles (
     role VARCHAR(1) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS game_images (
-    id_game_image SERIAL PRIMARY KEY,
-    image_name VARCHAR(50) NOT NULL,
-    image_path TEXT NOT NULL,
-    image_size_game NUMERIC(10, 2) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS profile_pictures (
-    id_profile_pic SERIAL PRIMARY KEY,
-    image_name VARCHAR(50) NOT NULL,
-    image_path TEXT NOT NULL,
-    image_size NUMERIC(10, 2) NOT NULL
-);
+-- CREATE TABLE IF NOT EXISTS profile_pictures (
+--     id_profile_pic SERIAL PRIMARY KEY,
+--     image_name VARCHAR(50) NOT NULL,
+--     image_path TEXT NOT NULL,
+--     image_size NUMERIC(10, 2) NOT NULL
+-- );
 
 
 CREATE TABLE IF NOT EXISTS games (
@@ -25,6 +18,9 @@ CREATE TABLE IF NOT EXISTS games (
     name_game VARCHAR(100) NOT NULL, 
     page_link TEXT NOT NULL,
     game_code TEXT NOT NULL,
+    image_name TEXT NOT NULL,
+    image_path TEXT NOT NULL,
+    -- image_size_game NUMERIC(10, 2)
     FOREIGN KEY (id_game_image_games) REFERENCES game_images (id_game_image) 
 );
 
@@ -36,6 +32,8 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     hours_played INTEGER NOT NULL,
     password_hash TEXT NOT NULL,
+    -- profile_pic_name VARCHAR(50) NOT NULL,
+    -- profile_pic_path VARCHAR(50) NOT NULL,
     FOREIGN KEY (id_profile_pic_path) REFERENCES profile_pictures (id_profile_pic)
 );
 
