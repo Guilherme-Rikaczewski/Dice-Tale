@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabela de Usuários</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f4f4f4;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Usuários</h1>
+  <button onclick="buscarUsuarios()">Carregar Usuários</button>
+
+  <table id="tabela">
+    <thead>
+      <tr id="cabecalho"></tr>
+    </thead>
+    <tbody id="corpo"></tbody>
+  </table>
+
+  <script>
+    async function buscarUsuarios() {
+      try {
+        const resposta = await fetch("http://127.0.0.1:3069/users/");
+        const dados = await resposta.json();
+
+        if (dados.length === 0) {
+          alert("Nenhum usuário encontrado!");
+          return;
+        }
+
+        // Preenche o cabeçalho dinamicamente
+        const cabecalho = document.getElementById("cabecalho");
+        cabecalho.innerHTML = ""; // limpa antes
+        Object.keys(dados[0]).forEach(chave => {
+          const th = document.createElement("th");
+          th.textContent = chave;
+          cabecalho.appendChild(th);
+        });
+
+        // Preenche o corpo da tabela
+        const corpo = document.getElementById("corpo");
+        corpo.innerHTML = ""; // limpa antes
+        dados.forEach(usuario => {
+          const tr = document.createElement("tr");
+          Object.values(usuario).forEach(valor => {
+            const td = document.createElement("td");
+            td.textContent = valor;
+            tr.appendChild(td);
+          });
+          corpo.appendChild(tr);
+        });
+      } catch (erro) {
+        console.error("Erro ao buscar usuários:", erro);
+        alert("Erro ao buscar usuários!");
+      }
+    }
+  </script>
+</body>
+</html>

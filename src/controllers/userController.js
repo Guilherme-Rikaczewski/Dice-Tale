@@ -1,5 +1,14 @@
-const { User } = require("../models/index")
+const { User, View } = require("../models/index")
 const { isIdInvalid, notExist } = require('../utils/validators')
+
+async function getView(req, res) {
+    try{
+        const users = await View.findAll()
+        res.status(200).json(users)
+    } catch (err){
+        res.status(500).json({ error: err.message })
+    }
+}
 
 // testado
 async function createUser(req, res) {
@@ -73,5 +82,5 @@ async function deleteUser(req, res) {
 
 
 
-module.exports={ createUser, getUserById, updateUser, deleteUser }
+module.exports={ createUser, getUserById, updateUser, deleteUser, getView }
 

@@ -12,6 +12,8 @@ const Token = require('./tokenModel')(sequelize)
 const TokenAccess = require('./tokenAccessModel')(sequelize)
 const TokenBar = require('./tokenBarModel')(sequelize)
 
+const View = require('./viewModel')(sequelize)
+
 // belongsTo --> usado no lado onde a FK está --> referencia fk da tabela sendo usada
 // hasMany --> usado no lado que é referenciado pela FK --> referencia fk da tabela passada como parametro
 
@@ -47,5 +49,6 @@ module.exports = {
     Token,
     TokenAccess,
     TokenBar,
+    View,
     sequelize
 }

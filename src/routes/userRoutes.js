@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post('/', userController.createUser)
 router.get('/', authMiddleware, userController.getUserById)
+// router.get('/', userController.getView)
 router.put('/', authMiddleware, userController.updateUser)
 router.delete('/', authMiddleware, userController.deleteUser)
 
