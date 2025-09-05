@@ -1,6 +1,5 @@
 const sequelize = require('../config/database')
 const User = require('./userModel')(sequelize)
-const ProfilePic = require('./profilePicModel')(sequelize)
 const Game = require('./gameModel')(sequelize)
 const Role = require('./roleModel')(sequelize)
 const GameRule = require('./gameRuleModel')(sequelize)
@@ -40,7 +39,6 @@ GameRule.belongsTo(Game, { foreignKey: 'idGame' })
 
 module.exports = { 
     User, 
-    ProfilePic, 
     Game, 
     Role, 
     GameRule,
