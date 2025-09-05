@@ -26,7 +26,9 @@ async function getUserById(req, res) {
         if (isIdInvalid(req.userId)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const user = await User.findByPk(req.userId)
+        const user = await User.findByPk(req.userId, {
+            attributes: ['email', 'username', 'hoursPlayed']
+        })
         if (notExist(user)) {
             return res.status(404).json({error: 'Sorry, user not found'})
         }

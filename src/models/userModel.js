@@ -38,7 +38,6 @@ module.exports = (sequelize) => {
         },
         hoursPlayed: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             field: 'hours_played'
         },
         password: {

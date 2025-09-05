@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS users (
     email_user VARCHAR(256) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    hours_played INTEGER NOT NULL,
+    hours_played INTEGER,
     password_hash TEXT NOT NULL,
     FOREIGN KEY (id_profile_pic_path) REFERENCES profile_pictures (id_profile_pic)
 );
