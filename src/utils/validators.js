@@ -3,5 +3,5 @@ exports.isIdInvalid = (id)=>{
 }
 
 exports.notExist = (register)=>{
-    return register == null
+    return !register
 }
