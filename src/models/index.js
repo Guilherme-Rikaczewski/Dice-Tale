@@ -3,7 +3,6 @@ const User = require('./userModel')(sequelize)
 const Game = require('./gameModel')(sequelize)
 const Role = require('./roleModel')(sequelize)
 const GameRule = require('./gameRuleModel')(sequelize)
-// precisa criar as relações
 const Sheet = require('./sheetModel')(sequelize)
 const Token = require('./tokenModel')(sequelize)
 const TokenAccess = require('./tokenAccessModel')(sequelize)
@@ -15,7 +14,6 @@ const View = require('./viewModel')(sequelize)
 // hasMany --> usado no lado que é referenciado pela FK --> referencia fk da tabela passada como parametro
 
 // Relações de User
-User.belongsTo(ProfilePic, { foreignKey: 'idProfilePic' })
 User.hasMany(GameRule, { foreignKey: 'idUser' })
 User.hasMany(Sheet, { foreignKey: 'userId' })
 User.hasMany(TokenAccess, { foreignKey: 'userId' })
@@ -23,10 +21,7 @@ User.hasMany(TokenAccess, { foreignKey: 'userId' })
 // Relações de Game
 Game.hasMany(GameRule, { foreignKey: 'idGame' })
 Game.hasMany(Sheet, { foreignKey: 'gameId' })
-Game.hasMany(Token, { foreignKey: 'tokenId' })
-
-// Relações de GameImage
-GameImage.hasOne(Game, { foreignKey: 'idGameImage' })
+Game.hasMany(Token, { foreignKey: 'gameId' })
 
 // Relações de Role
 Role.hasMany(GameRule, { foreignKey: 'idRole' })
@@ -36,6 +31,22 @@ GameRule.belongsTo(User, { foreignKey:'idUser' })
 GameRule.belongsTo(Role, { foreignKey: 'idRole' })
 GameRule.belongsTo(Game, { foreignKey: 'idGame' })
 
+// Relações de Sheets
+Sheet.belongsTo(User, { foreignKey: 'userId' })
+Sheet.belongsTo(Game, { foreignKey: 'gameId' })
+Sheet.hasOne(Token, { foreignKey: 'sheetId' })
+
+// Relações de Token
+Token.belongsTo(Sheet, { foreignKey: 'sheetId' })
+Token.belongsTo(Game, { foreignKey: 'gameId' })
+Token.hasMany(TokenBar, { foreignKey: 'tokenId' })
+
+// Relações de TokenAccess
+TokenAccess.belongsTo(Token, { foreignKey: 'tokenId' })
+TokenAccess.belongsTo(User, { foreignKey: 'userId' })
+
+// Relações de TokenBar
+TokenBar.belongsTo(Token, { foreignKey: 'tokenId' })
 
 module.exports = { 
     User, 
