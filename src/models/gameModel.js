@@ -29,6 +29,16 @@ module.exports = (sequelize)=>{
             allowNull: false,
             field: 'game_code'
         },
+        imageName: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            field: 'image_name'
+        },
+        imagePath: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            field: 'image_path'
+        },
 
     },
     {
