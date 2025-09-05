@@ -38,14 +38,23 @@ module.exports = (sequelize) => {
         },
         hoursPlayed: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             field: 'hours_played'
         },
         password: {
             type: DataTypes.TEXT,
             allowNull: false,
             field: 'password_hash'
-        }
+        },
+        profilePicName: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            field: 'profile_pic_name'
+        },
+        profilePicPath: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            field: 'profile_pic_path'
+        },
     },
         {
             sequelize,

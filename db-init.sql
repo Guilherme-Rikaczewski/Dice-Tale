@@ -4,27 +4,14 @@ CREATE TABLE IF NOT EXISTS roles (
     role VARCHAR(1) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS game_images (
-    id_game_image SERIAL PRIMARY KEY,
-    image_name VARCHAR(50) NOT NULL,
-    image_path TEXT NOT NULL,
-    image_size_game NUMERIC(10, 2) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS profile_pictures (
-    id_profile_pic SERIAL PRIMARY KEY,
-    image_name VARCHAR(50) NOT NULL,
-    image_path TEXT NOT NULL,
-    image_size NUMERIC(10, 2) NOT NULL
-);
-
-
 CREATE TABLE IF NOT EXISTS games (
     id_game SERIAL PRIMARY KEY,
     id_game_image_games INTEGER,
     name_game VARCHAR(100) NOT NULL, 
     page_link TEXT NOT NULL,
     game_code TEXT NOT NULL,
+    image_name TEXT NOT NULL,
+    image_path TEXT NOT NULL,
     FOREIGN KEY (id_game_image_games) REFERENCES game_images (id_game_image) 
 );
 
@@ -34,8 +21,10 @@ CREATE TABLE IF NOT EXISTS users (
     email_user VARCHAR(256) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    hours_played INTEGER NOT NULL,
+    hours_played INTEGER,
     password_hash TEXT NOT NULL,
+    profile_pic_name TEXT NOT NULL,
+    profile_pic_path TEXT NOT NULL,
     FOREIGN KEY (id_profile_pic_path) REFERENCES profile_pictures (id_profile_pic)
 );
 
@@ -82,7 +71,7 @@ CREATE TABLE IF NOT EXISTS sheets (
     proficiencies JSONB NOT NULL DEFAULT '{}', -- proeficiencias
     other_skills JSONB NOT NULL DEFAULT '{}', -- outras proeficiencias e idiomas
     items JSONB NOT NULL DEFAULT '{}', -- itens da ficha
-    last_accessed TIMESTAMP DEFAULT NOW(),
+    last_access TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (id_game_sheets) REFERENCES games(id_game),
     FOREIGN KEY (id_user_sheets) REFERENCES users(id_user) ON DELETE CASCADE
 );
@@ -117,11 +106,3 @@ CREATE TABLE IF NOT EXISTS tokens_access (
     FOREIGN KEY (id_user_access) REFERENCES users(id_user)
 );
 
-CREATE TABLE IF NOT EXISTS recent_sheets (
-    id_recent_sheets SERIAL PRIMARY KEY,
-    id_user_recent_sheets INT NOT NULL,
-    id_sheets_recent_sheets INT NOT NULL,
-    accessed_at TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (id_user_recent_sheets) REFERENCES users(id_user) ON DELETE CASCADE,
-    FOREIGN KEY (id_sheets_recent_sheets) REFERENCES sheets(id_sheet) ON DELETE CASCADE
-);

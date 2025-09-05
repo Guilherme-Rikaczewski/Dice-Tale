@@ -158,11 +158,11 @@ module.exports=(sequelize)=>{
             defaultValue: {},
             field: 'items' 
         },
-        lastAccessed: {
+        lastAccess: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: 'last_accessed'
+            field: 'last_access'
         }
     },
     {
