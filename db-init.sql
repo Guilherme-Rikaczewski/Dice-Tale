@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS game_rules (
 CREATE TABLE IF NOT EXISTS sheets (
     id_sheet SERIAL PRIMARY KEY,
     id_game_sheets INT,
-    id_user_sheets INT NOT NULL,
     name_sheet TEXT,
     image_sheet_path TEXT NOT NULL DEFAULT '/path/da/imagem/padrao.png',
     current_hitpoints INT,
@@ -71,11 +70,18 @@ CREATE TABLE IF NOT EXISTS sheets (
     proficiencies JSONB NOT NULL DEFAULT '{}', -- proeficiencias
     other_skills JSONB NOT NULL DEFAULT '{}', -- outras proeficiencias e idiomas
     items JSONB NOT NULL DEFAULT '{}', -- itens da ficha
-    last_access TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (id_game_sheets) REFERENCES games(id_game),
-    FOREIGN KEY (id_user_sheets) REFERENCES users(id_user) ON DELETE CASCADE
+    FOREIGN KEY (id_game_sheets) REFERENCES games(id_game)
 );
 
+CREATE TABLE IF NOT EXISTS sheets_access (
+    id_access SERIAL PRIMARY KEY,
+    id_sheet INT NOT NULL,
+    id_user INT NOT NULL,
+    owner BOOLEAN NOT NULL,
+    last_access TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (id_sheet) REFERENCES sheets(id_sheet) ON DELETE CASCADE,
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
+);
 
 CREATE TABLE IF NOT EXISTS tokens (
     id_token SERIAL PRIMARY KEY,
@@ -103,6 +109,6 @@ CREATE TABLE IF NOT EXISTS tokens_access (
     id_token_access INT NOT NULL,
     id_user_access INT NOT NULL,
     FOREIGN KEY (id_token_access) REFERENCES tokens(id_token) ON DELETE CASCADE,
-    FOREIGN KEY (id_user_access) REFERENCES users(id_user)
+    FOREIGN KEY (id_user_access) REFERENCES users(id_user) ON DELETE CASCADE
 );
 
