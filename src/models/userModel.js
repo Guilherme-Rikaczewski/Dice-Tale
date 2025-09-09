@@ -11,10 +11,6 @@ module.exports = (sequelize) => {
             autoIncrement: true,
             field: 'id_user'
         },
-        idProfilePic: {
-            type: DataTypes.INTEGER,
-            field: 'id_profile_pic_path'
-        },
         email: {
             type: DataTypes.STRING(256),
             unique: true,

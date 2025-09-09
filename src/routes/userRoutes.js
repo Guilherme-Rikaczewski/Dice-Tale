@@ -5,9 +5,12 @@ const router = express.Router()
 
 router.post('/', userController.createUser)
 router.get('/', authMiddleware, userController.getUserById)
-// router.get('/', userController.getView)
-router.put('/', authMiddleware, userController.updateUser)
+router.get('/profilepic', authMiddleware, userController.getProfilePic)
+router.patch('/', authMiddleware, userController.updateUser)
 router.delete('/', authMiddleware, userController.deleteUser)
+
+// router.get('/', userController.getView)
+
 
 module.exports = router
 
