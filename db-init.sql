@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS games (
 
 CREATE TABLE IF NOT EXISTS users (
     id_user SERIAL PRIMARY KEY,
-    id_profile_pic_path INTEGER,
     email_user VARCHAR(256) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -25,7 +24,6 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash TEXT NOT NULL,
     profile_pic_name TEXT NOT NULL,
     profile_pic_path TEXT NOT NULL,
-    FOREIGN KEY (id_profile_pic_path) REFERENCES profile_pictures (id_profile_pic)
 );
 
 CREATE TABLE IF NOT EXISTS game_rules (

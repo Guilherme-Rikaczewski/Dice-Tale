@@ -1,5 +1,4 @@
-const { where } = require('sequelize')
-const { Sheet } = require('../models/index')
+const { Sheet, SheetAccess, Game, User } = require('../models/index')
 const { isIdInvalid, notExist } = require('../utils/validators')
 
 async function createSheet(req, res) {
@@ -34,9 +33,45 @@ async function getAllSheets(req, res) {
         if (isIdInvalid(userId)){
             res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const allSheets = await Sheet.findAll({where: {userId}})
+        const allSheets = await SheetAccess.findAll({
+            where: {userId},
+            include: [
+                {
+                    model: Sheet,
+                    attributes: ['name', 'imagePath'],
+                    include: [
+                        {
+                            model: Game,
+                            attributes: ['name']
+                        },
+                        {
+                            model: SheetAccess,
+                            include: [
+                                {
+                                    model: User,
+                                    attributes: ['profilePicPath']
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ]
+        })
+
+        const sheets = allSheets.map((sheetAccess)=>{
+            return {
+                id: sheetAccess.sheetId,
+                owner: sheetAccess.owner,
+                name: sheetAccess.Sheet.name,
+                imagePath: sheetAccess.Sheet.imagePath,
+                gameName: sheetAccess.Sheet.Game.name,
+                playersProfilePic: sheetAccess.Sheet.SheetAccess.map((access) => {
+                    return access.User.profilePicPath
+                }),
+            }  
+        })
         
-        res.status(200).json(allSheets)
+        res.status(200).json(sheets)
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
@@ -47,16 +82,27 @@ async function getRecentSheets(req, res) {
         if (isIdInvalid(req.userId)){
             res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const allSheets = await Sheet.findAll({
-            where: {userOwnerId: req.userId},
-            order: [
-                ['lastAccess', 'DESC'],
-                ['id', 'DESC']
+        const recentSheets = await SheetAccess.findAll({
+            where:{ userId: req.userId },
+            include: [
+                {
+                    model: Sheet,
+                    attributes: ['name', 'imagePath']
+                }
             ],
+            order: [['lastAccess', 'DESC']],
             limit: 4
         })
+
+        const sheets = recentSheets.map((sheetAccess)=>{
+            return {
+                id: sheetAccess.sheetId,
+                name: sheetAccess.Sheet.name,
+                imagePath: sheetAccess.Sheet.imagePath
+            }
+        })
         
-        res.status(200).json(allSheets)
+        res.status(200).json(sheets)
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
