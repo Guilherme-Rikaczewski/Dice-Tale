@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS games (
     page_link TEXT NOT NULL,
     game_code TEXT NOT NULL,
     image_name TEXT NOT NULL,
-    image_path TEXT NOT NULL,
-    FOREIGN KEY (id_game_image_games) REFERENCES game_images (id_game_image) 
+    image_path TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -100,7 +99,7 @@ CREATE TABLE IF NOT EXISTS token_bars (
     data_sheet_link VARCHAR(50),
     hex_code VARCHAR(8) NOT NULL,
     FOREIGN KEY (id_token_bar) REFERENCES tokens(id_token) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE IF NOT EXISTS tokens_access (
     id_access SERIAL PRIMARY KEY,
