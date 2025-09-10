@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS users (
     email_user VARCHAR(256) UNIQUE NOT NULL,
     username VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    hours_played INTEGER,
+    hours_played INTEGER DEFAULT 0,
     password_hash TEXT NOT NULL,
-    profile_pic_name TEXT NOT NULL,
-    profile_pic_path TEXT NOT NULL,
+    profile_pic_name TEXT NOT NULL DEFAULT 'imagem_padrao.png',
+    profile_pic_path TEXT NOT NULL DEFAULT '/public/images/imagem_padrao.png',
 );
 
 CREATE TABLE IF NOT EXISTS game_rules (

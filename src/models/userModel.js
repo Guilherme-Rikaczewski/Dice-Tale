@@ -34,6 +34,7 @@ module.exports = (sequelize) => {
         },
         hoursPlayed: {
             type: DataTypes.INTEGER,
+            defaultValue: 0,
             field: 'hours_played'
         },
         password: {
@@ -44,11 +45,13 @@ module.exports = (sequelize) => {
         profilePicName: {
             type: DataTypes.TEXT,
             allowNull: false,
+            defaultValue: 'imagem_padrao.png',
             field: 'profile_pic_name'
         },
         profilePicPath: {
             type: DataTypes.TEXT,
             allowNull: false,
+            defaultValue: '/public/images/imagem_padrao.png',
             field: 'profile_pic_path'
         },
     },
@@ -59,6 +62,7 @@ module.exports = (sequelize) => {
             timestamps: false,
             hooks: {
                 beforeCreate: async (user) => {
+                    // criptografa senha
                     const saltRounds = 12 //custo de processamento da hash
                     user.password = await bcrypt.hash(user.password, saltRounds)
                 },
