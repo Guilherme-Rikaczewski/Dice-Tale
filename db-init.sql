@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
     hours_played INTEGER DEFAULT 0,
     password_hash TEXT NOT NULL,
     profile_pic_name TEXT NOT NULL DEFAULT 'imagem_padrao.png',
-    profile_pic_path TEXT NOT NULL DEFAULT '/public/images/imagem_padrao.png',
+    profile_pic_path TEXT NOT NULL DEFAULT '/public/images/imagem_padrao.png'
 );
 
 CREATE TABLE IF NOT EXISTS game_rules (
