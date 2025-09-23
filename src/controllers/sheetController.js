@@ -4,7 +4,15 @@ const { isIdInvalid, notExist } = require('../utils/validators')
 async function createSheet(req, res) {
     try {
         const sheet = await Sheet.create(req.body)
-        res.status(201).json(sheet)
+
+        const access = {
+            sheetId: sheet.id,
+            userId: req.userId,
+            owner: true
+        }
+
+        const sheetAccess = await SheetAccess.create(access)
+        res.status(201).json({sheet, sheetAccess})
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
@@ -14,7 +22,7 @@ async function createSheet(req, res) {
 async function getSheetById(req, res) {
     try {
         if (isIdInvalid(req.body.id)){
-            res.status(400).json({error: 'Sorry, invalid ID'})
+            res.status(400).json({error: 'Sorry, invalid sheet ID'})
         }
         const sheet = await Sheet.findByPk(req.body.id)
         if (notExist(sheet)){
@@ -31,7 +39,7 @@ async function getAllSheets(req, res) {
     try {
         const userId = req.userId
         if (isIdInvalid(userId)){
-            res.status(400).json({error: 'Sorry, invalid ID'})
+            res.status(400).json({error: 'Sorry, invalid user ID'})
         }
         const allSheets = await SheetAccess.findAll({
             where: {userId},
@@ -42,7 +50,8 @@ async function getAllSheets(req, res) {
                     include: [
                         {
                             model: Game,
-                            attributes: ['name']
+                            attributes: ['name'],
+                            required: false
                         },
                         {
                             model: SheetAccess,
@@ -64,8 +73,9 @@ async function getAllSheets(req, res) {
                 owner: sheetAccess.owner,
                 name: sheetAccess.Sheet.name,
                 imagePath: sheetAccess.Sheet.imagePath,
-                gameName: sheetAccess.Sheet.Game.name,
-                playersProfilePic: sheetAccess.Sheet.SheetAccess.map((access) => {
+                // verifica se o game existe, se sim retorna o nome, se nao nulo
+                gameName: sheetAccess.Sheet.Game ? sheetAccess.Sheet.Game.name : null, 
+                playersProfilePic: sheetAccess.Sheet.SheetsAccesses.map((access) => {
                     return access.User.profilePicPath
                 }),
             }  
@@ -80,7 +90,7 @@ async function getAllSheets(req, res) {
 async function getRecentSheets(req, res) {
     try {
         if (isIdInvalid(req.userId)){
-            res.status(400).json({error: 'Sorry, invalid ID'})
+            res.status(400).json({error: 'Sorry, invalid user ID'})
         }
         const recentSheets = await SheetAccess.findAll({
             where:{ userId: req.userId },
@@ -108,3 +118,47 @@ async function getRecentSheets(req, res) {
     }
 }
 
+async function updateSheet(req, res) {
+    try{
+        if (isIdInvalid(req.body.id)){
+            res.status(400).json({error: 'Sorry, invalid sheet ID'})
+        }
+        const sheet = await Sheet.findByPk(req.body.id)
+        if (notExist(sheet)){
+            res.status(404).json({error: 'Sorry, sheet not found'})
+        }
+
+        await sheet.update(req.body)
+        res.status(200).json(sheet)
+    }catch(err){
+        res.status(500).json({ error: err.message })
+    }
+}
+
+async function deleteSheet(req, res) {
+    try{
+        if (isIdInvalid(req.body.id)){
+            res.status(400).json({error: 'Sorry, invalid sheet ID'})
+        }
+        const sheet = await Sheet.findByPk(req.body.id)
+        if (notExist(sheet)){
+            res.status(404).json({error: 'Sorry, sheet not found'})
+        }
+
+        await sheet.destroy()
+        res.status(204).send()
+    }catch(err){
+        res.status(500).json({ error: err.message })
+    }
+}
+
+
+
+module.exports = {
+    createSheet,
+    getAllSheets,
+    getRecentSheets,
+    getSheetById,
+    updateSheet,
+    deleteSheet
+}
