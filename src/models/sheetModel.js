@@ -14,11 +14,6 @@ module.exports=(sequelize)=>{
             type: DataTypes.INTEGER,
             field: 'id_game_sheets'
         },
-        userOwnerId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            field: 'id_user_owner_sheets'
-        },
         name: {
             type: DataTypes.TEXT,
             field: 'name_sheet'
@@ -157,12 +152,6 @@ module.exports=(sequelize)=>{
             allowNull: false,
             defaultValue: {},
             field: 'items' 
-        },
-        lastAccess: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-            field: 'last_access'
         }
     },
     {
