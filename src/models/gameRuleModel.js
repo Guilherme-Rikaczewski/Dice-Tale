@@ -10,17 +10,17 @@ module.exports=(sequelize)=>{
             autoIncrement: true,
             field: 'id_gamerules'
         },
-        idUser: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: 'id_user_gamerules'
         },
-        idRole: {
-            type: DataTypes.INTEGER,
+        role: {
+            type: DataTypes.STRING(1),
             allowNull: false,
-            field: 'id_roles_gamerules'
+            field: 'game_role'
         },
-        idGame: {
+        gameId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: 'id_games_gamerules'

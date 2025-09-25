@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.post('/', authMiddleware, sheetController.createSheet)
 router.get('/all', authMiddleware, sheetController.getAllSheets)
-router.get('/id', authMiddleware, sheetController.getSheetById)
+router.get('/', authMiddleware, sheetController.getSheetById)
 router.get('/recent',  authMiddleware, sheetController.getRecentSheets)
 router.patch('/',  authMiddleware, sheetController.updateSheet)
 router.delete('/', authMiddleware, sheetController.deleteSheet)
