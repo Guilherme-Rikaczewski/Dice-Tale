@@ -23,7 +23,7 @@ async function genereteUniqueGameCode() {
     return code
 }
 
-// testado
+
 async function createGame(req, res) {
     try{
         req.body.code = genereteUniqueGameCode()
@@ -45,37 +45,37 @@ async function createGame(req, res) {
 // testado
 async function getGameById(req, res) {
     try{
-        if (isIdInvalid(req.userId)){
+        if (isIdInvalid(req.body.id)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const user = await User.findByPk(req.userId, {
-            attributes: ['email', 'username', 'hoursPlayed']
-        })
-        if (notExist(user)) {
-            return res.status(404).json({error: 'Sorry, user not found'})
+        const game = await Game.findByPk(req.body.id)
+        if (notExist(game)) {
+            return res.status(404).json({error: 'Sorry, game not found'})
         }
 
-        res.status(200).json(user)
+        res.status(200).json(game)
     }catch(err){
         res.status(500).json({error: err.message})
     }
 }
 
-async function getGameProfile(req, res) {
+async function getGameRules(req, res) {
     try{
-        if (isIdInvalid(req.userId)){
+        const gameId = req.body.id
+        const userId = req.userId
+        if (isIdInvalid(gameId)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
 
-        const user = await User.findByPk(req.userId, {
-            attributes: ['profilePicName', 'profilePicPath']
+        const gameRules = await GameRule.findOne({
+            where: {gameId, userId}
         })
 
-        if (notExist(user)) {
-            return res.status(404).json({error: 'Sorry, user not found'})
+        if (notExist(gameRules)) {
+            return res.status(404).json({error: 'Sorry, game not found'})
         }
 
-        res.status(200).json(user)
+        res.status(200).json(gameRules)
     }catch (err) {
         res.status(500).json({error:err.message})
     }
@@ -85,17 +85,16 @@ async function getGameProfile(req, res) {
 // testado 
 async function updateGame(req, res) {
     try{
-        if (isIdInvalid(req.userId)){
+        if (isIdInvalid(req.body.id)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const user = await User.findByPk(req.userId)
-        if (notExist(user)) {
-            return res.status(404).json({error: 'Sorry, user not found'})
-
+        const game = await Game.findByPk(req.body.id)
+        if (notExist(game)) {
+            return res.status(404).json({error: 'Sorry, game not found'})
         }
 
-        await user.update(req.body)
-        res.status(200).json(user)
+        await game.update(req.body)
+        res.status(200).json(game)
 
     } catch (err) {
         res.status(500).json({error: err.message})
@@ -106,15 +105,15 @@ async function updateGame(req, res) {
 
 async function deleteGame(req, res) {
     try{
-        if (isIdInvalid(req.userId)){
+        if (isIdInvalid(req.body.id)){
             return res.status(400).json({error: 'Sorry, invalid ID'})
         }
-        const user = await User.findByPk(req.userId)
-        if (notExist(user)){
-            return res.status(404).json({error: 'Sorry, user not found'})
+        const game = await Game.findByPk(req.body.id)
+        if (notExist(game)){
+            return res.status(404).json({error: 'Sorry, game not found'})
         }
 
-        await user.destroy()
+        await game.destroy()
         res.status(204).send()
     } catch (err) {
         res.status(500).json({error: err.message})
@@ -123,5 +122,5 @@ async function deleteGame(req, res) {
 
 
 
-module.exports={ createGame, getUserById, updateUser, deleteUser, getProfilePic }
+module.exports={ createGame, getGameById, updateGame, deleteGame, getGameRules }
 
