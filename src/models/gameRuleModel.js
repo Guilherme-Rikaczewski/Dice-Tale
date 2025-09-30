@@ -24,6 +24,12 @@ module.exports=(sequelize)=>{
             type: DataTypes.INTEGER,
             allowNull: false,
             field: 'id_games_gamerules'
+        },
+        lastAccess: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+            field: 'last_access'
         }
     },
     {

@@ -1,5 +1,5 @@
-const { Game, GameRule } = require("../models/index")
-const { isIdInvalid, notExist } = require('../utils/validators')
+const { Game, GameRule, SheetAccess, Sheet } = require("../models/index")
+const { isIdInvalid, notExist, isCodeInvalid } = require('../utils/validators')
 
 
 function generateCode(length = 6){
@@ -36,24 +36,47 @@ async function createGame(req, res) {
         }
         const gameRule = await GameRule.create(gameRuleData)
 
-        res.status(201).json({game, gameRule})
+        res.status(201).json({game: game, gameRule: gameRule})
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
 }
 
 // testado
-async function getGameById(req, res) {
+async function getGameByCode(req, res) {
     try{
-        if (isIdInvalid(req.body.id)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+        if (isCodeInvalid(req.params.code)){
+            return res.status(400).json({error: 'Sorry, invalid game code'})
         }
-        const game = await Game.findByPk(req.body.id)
+        const game = await Game.findOne({
+            where: {code: req.params.code},
+            attributes: ['id']
+        })
         if (notExist(game)) {
             return res.status(404).json({error: 'Sorry, game not found'})
         }
 
-        res.status(200).json(game)
+        const allSheets = await SheetAccess.findAll({
+            where: { userId: req.userId },
+            attributes: ['sheetId'],
+            include: [
+                {
+                    model: Sheet,
+                    attributes: ['name', 'imagePath'],
+                    where: {gameId: game.id}
+                }
+            ]
+        })
+
+        const gameData = allSheets.map((sheetAccess)=>{
+            return {
+                id: sheetAccess.sheetId,
+                name: sheetAccess.Sheet.name,
+                imagePath: sheetAccess.Sheet.imagePath
+            }  
+        })
+
+        res.status(200).json(gameData)
     }catch(err){
         res.status(500).json({error: err.message})
     }
@@ -80,6 +103,37 @@ async function getGameRules(req, res) {
         res.status(500).json({error:err.message})
     }
     
+}
+
+async function getRecentGames(req, res) {
+    try {
+        if (isIdInvalid(req.userId)){
+            res.status(400).json({error: 'Sorry, invalid user ID'})
+        }
+        const recentGames = await GameRule.findAll({
+            where:{ userId: req.userId },
+            include: [
+                {
+                    model: Game,
+                    attributes: ['name', 'code', 'imagePath'],
+                }
+            ],
+            order: [['lastAccess', 'DESC']],
+            limit: 9
+        })
+
+        const games = recentGames.map((gr)=>{
+            return {
+                code: gr.Game.code,
+                name: gr.Game.name,
+                imagePath: gr.Game.imagePath,
+            }
+        })
+        
+        res.status(200).json(games)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
 }
 
 // testado 
@@ -122,5 +176,5 @@ async function deleteGame(req, res) {
 
 
 
-module.exports={ createGame, getGameById, updateGame, deleteGame, getGameRules }
+module.exports={ createGame, getGameByCode, updateGame, deleteGame, getGameRules, getRecentGames }
 

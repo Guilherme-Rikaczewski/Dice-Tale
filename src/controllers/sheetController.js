@@ -12,7 +12,7 @@ async function createSheet(req, res) {
         }
 
         const sheetAccess = await SheetAccess.create(access)
-        res.status(201).json({sheet, sheetAccess})
+        res.status(201).json({sheet: sheet, sheetAcces: sheetAccess})
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
@@ -29,6 +29,13 @@ async function getSheetById(req, res) {
             res.status(404).json({error: 'Sorry, sheet not found'})
         }
 
+        await SheetAccess.update({lastAccess: new Date()}, {
+            where: {
+                sheetId: sheet.id,
+                userId: req.userId
+            }
+        })
+        
         res.status(200).json(sheet)
     } catch (err) {
         res.status(500).json({ error: err.message })
@@ -97,7 +104,14 @@ async function getRecentSheets(req, res) {
             include: [
                 {
                     model: Sheet,
-                    attributes: ['name', 'imagePath']
+                    attributes: ['name', 'imagePath'],
+                    include:[
+                        {
+                            model: Game,
+                            attributes: ['name'],
+                            required: false
+                        }
+                    ]
                 }
             ],
             order: [['lastAccess', 'DESC']],
@@ -108,7 +122,8 @@ async function getRecentSheets(req, res) {
             return {
                 id: sheetAccess.sheetId,
                 name: sheetAccess.Sheet.name,
-                imagePath: sheetAccess.Sheet.imagePath
+                imagePath: sheetAccess.Sheet.imagePath,
+                gameName: sheetAccess.Sheet.Game ? sheetAccess.Sheet.Game.name : null
             }
         })
         

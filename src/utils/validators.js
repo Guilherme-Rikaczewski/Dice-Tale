@@ -5,3 +5,7 @@ exports.isIdInvalid = (id)=>{
 exports.notExist = (register)=>{
     return !register
 }
+
+exports.isCodeInvalid = (code)=>{
+    return code.length != 6
+}

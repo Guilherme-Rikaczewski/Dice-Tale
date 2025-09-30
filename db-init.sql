@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS game_rules (
     id_user_gamerules INTEGER NOT NULL,
     game_role VARCHAR(1) NOT NULL,
     id_games_gamerules INTEGER NOT NULL,
+    last_access TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (id_user_gamerules) REFERENCES users (id_user) ON DELETE CASCADE,
     FOREIGN KEY (id_games_gamerules) REFERENCES games (id_game) ON DELETE CASCADE
 );
