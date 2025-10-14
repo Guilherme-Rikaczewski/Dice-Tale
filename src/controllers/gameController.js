@@ -182,6 +182,36 @@ async function getRecentGames(req, res) {
     }
 }
 
+async function getAllGames(req, res) {
+    try {
+        if (isIdInvalid(req.userId)){
+            return res.status(400).json({error: 'Sorry, invalid user ID'})
+        }
+        const allGames = await GameRule.findAll({
+            where:{ userId: req.userId },
+            include: [
+                {
+                    model: Game,
+                    attributes: ['name', 'code', 'imagePath'],
+                }
+            ],
+            order: [[Game, 'name', 'DESC']],
+        })
+
+        const games = allGames.map((gr)=>{
+            return {
+                code: gr.Game.code,
+                name: gr.Game.name,
+                imagePath: gr.Game.imagePath,
+            }
+        })
+        
+        res.status(200).json(games)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+}
+
 // testado 
 async function updateGame(req, res) {
     try{
@@ -224,7 +254,7 @@ async function deleteGame(req, res) {
 async function getGameByName(req, res) {
     try{
         if (isIdInvalid(req.userId)){
-            res.status(400).json({error: 'Sorry, invalid user ID'})
+            return res.status(400).json({error: 'Sorry, invalid user ID'})
         }
         const recentGames = await GameRule.findAll({
             where:{ userId: req.userId },
@@ -254,5 +284,5 @@ async function getGameByName(req, res) {
 }
 
 
-module.exports={ createGame, getGameByCode, updateGame, deleteGame, getGameRule, getRecentGames, joinGame, getGameByName}
+module.exports={ createGame, getGameByCode, updateGame, deleteGame, getGameRule, getRecentGames, joinGame, getGameByName, getAllGames}
 

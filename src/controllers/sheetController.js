@@ -22,11 +22,11 @@ async function createSheet(req, res) {
 async function getSheetById(req, res) {
     try {
         if (isIdInvalid(req.body.id)){
-            res.status(400).json({error: 'Sorry, invalid sheet ID'})
+            return res.status(400).json({error: 'Sorry, invalid sheet ID'})
         }
         const sheet = await Sheet.findByPk(req.body.id)
         if (notExist(sheet)){
-            res.status(404).json({error: 'Sorry, sheet not found'})
+            return res.status(404).json({error: 'Sorry, sheet not found'})
         }
 
         await SheetAccess.update({lastAccess: new Date()}, {
@@ -46,7 +46,7 @@ async function getAllSheets(req, res) {
     try {
         const userId = req.userId
         if (isIdInvalid(userId)){
-            res.status(400).json({error: 'Sorry, invalid user ID'})
+            return res.status(400).json({error: 'Sorry, invalid user ID'})
         }
         const allSheets = await SheetAccess.findAll({
             where: {userId},
@@ -97,7 +97,7 @@ async function getAllSheets(req, res) {
 async function getRecentSheets(req, res) {
     try {
         if (isIdInvalid(req.userId)){
-            res.status(400).json({error: 'Sorry, invalid user ID'})
+            return res.status(400).json({error: 'Sorry, invalid user ID'})
         }
         const recentSheets = await SheetAccess.findAll({
             where:{ userId: req.userId },
@@ -136,11 +136,11 @@ async function getRecentSheets(req, res) {
 async function updateSheet(req, res) {
     try{
         if (isIdInvalid(req.body.id)){
-            res.status(400).json({error: 'Sorry, invalid sheet ID'})
+            return res.status(400).json({error: 'Sorry, invalid sheet ID'})
         }
         const sheet = await Sheet.findByPk(req.body.id)
         if (notExist(sheet)){
-            res.status(404).json({error: 'Sorry, sheet not found'})
+            return res.status(404).json({error: 'Sorry, sheet not found'})
         }
 
         await sheet.update(req.body)
@@ -153,11 +153,11 @@ async function updateSheet(req, res) {
 async function deleteSheet(req, res) {
     try{
         if (isIdInvalid(req.body.id)){
-            res.status(400).json({error: 'Sorry, invalid sheet ID'})
+            return res.status(400).json({error: 'Sorry, invalid sheet ID'})
         }
         const sheet = await Sheet.findByPk(req.body.id)
         if (notExist(sheet)){
-            res.status(404).json({error: 'Sorry, sheet not found'})
+            return res.status(404).json({error: 'Sorry, sheet not found'})
         }
 
         await sheet.destroy()
