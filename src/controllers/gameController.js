@@ -42,6 +42,43 @@ async function createGame(req, res) {
     }
 }
 
+async function joinGame(req, res) {
+    try {
+        if (isCodeInvalid(req.params.code)) {
+            return res.status(400).json({ error: 'Sorry, invalid game code' })
+        }
+        const game = await Game.findOne({
+            where: { code: req.params.code },
+            attributes: ['id']
+        })
+        if (notExist(game)) {
+            return res.status(404).json({ error: 'Sorry, game not found' })
+        }
+
+        const findRule = await GameRule.findOne({
+            where: {
+                userId: req.userId,
+                gameId: game.id,
+            }
+        })
+
+        if (findRule) {
+            return res.status(409).json({ error: "User has already joined this game" })
+        }
+
+        const gameRuleData = {
+            userId: req.userId,
+            role: 'P',
+            gameId: game.id,
+        }
+        const gameRule = await GameRule.create(gameRuleData)
+        res.status(201).json(gameRule)
+    } catch(err){
+        res.status(500).json({error: err.message})
+    }
+
+}
+
 // testado
 async function getGameByCode(req, res) {
     try{
@@ -76,13 +113,21 @@ async function getGameByCode(req, res) {
             }  
         })
 
-        res.status(200).json(gameData)
+        const [updateRowCount, updatedRow] = await GameRule.update({lastAccess: new Date()}, {
+            where: {
+                userId: req.userId,
+                gameId: game.id
+            },
+            returning: true
+        })
+
+        res.status(200).json({gameData: gameData, gameRule: updatedRow[0]})
     }catch(err){
         res.status(500).json({error: err.message})
     }
 }
 
-async function getGameRules(req, res) {
+async function getGameRule(req, res) {
     try{
         const gameId = req.body.id
         const userId = req.userId
@@ -176,5 +221,5 @@ async function deleteGame(req, res) {
 
 
 
-module.exports={ createGame, getGameByCode, updateGame, deleteGame, getGameRules, getRecentGames }
+module.exports={ createGame, getGameByCode, updateGame, deleteGame, getGameRule, getRecentGames, joinGame}
 

@@ -25,7 +25,6 @@ Game.hasMany(Token, { foreignKey: 'gameId' })
 
 // Relações de GameRule
 GameRule.belongsTo(User, { foreignKey:'idUser' })
-GameRule.belongsTo(Role, { foreignKey: 'idRole' })
 GameRule.belongsTo(Game, { foreignKey: 'idGame' })
 
 // Relações de Sheets
