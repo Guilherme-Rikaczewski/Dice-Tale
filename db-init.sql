@@ -1,17 +1,9 @@
 
-CREATE TABLE IF NOT EXISTS roles (
-    id_role SERIAL PRIMARY KEY,
-    role VARCHAR(1) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS games (
     id_game SERIAL PRIMARY KEY,
-    id_game_image_games INTEGER,
     name_game VARCHAR(100) NOT NULL, 
-    page_link TEXT NOT NULL,
-    game_code TEXT NOT NULL,
-    image_name TEXT NOT NULL,
-    image_path TEXT NOT NULL
+    game_code TEXT UNIQUE NOT NULL,
+    image_path TEXT NOT NULL DEFAULT '/public/images/imagem_padrao_jogo.png'
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -28,10 +20,10 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS game_rules (
     id_gamerules SERIAL PRIMARY KEY,
     id_user_gamerules INTEGER NOT NULL,
-    id_roles_gamerules INTEGER NOT NULL,
+    game_role VARCHAR(1) NOT NULL,
     id_games_gamerules INTEGER NOT NULL,
+    last_access TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (id_user_gamerules) REFERENCES users (id_user) ON DELETE CASCADE,
-    FOREIGN KEY (id_roles_gamerules) REFERENCES roles (id_role) ON DELETE CASCADE,
     FOREIGN KEY (id_games_gamerules) REFERENCES games (id_game) ON DELETE CASCADE
 );
 

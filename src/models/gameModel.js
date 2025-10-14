@@ -10,33 +10,21 @@ module.exports = (sequelize)=>{
             autoIncrement: true,
             field: 'id_game'
         },
-        idGameImage: {
-            type: DataTypes.INTEGER,
-            field: 'id_game_image_games'
-        },
         name: {
             type: DataTypes.STRING(100),
             allowNull: false,
             field: 'name_game'
         },
-        link: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            field: 'page_link'
-        },
         code: {
             type: DataTypes.TEXT,
             allowNull: false,
+            unique: true,
             field: 'game_code'
-        },
-        imageName: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            field: 'image_name'
         },
         imagePath: {
             type: DataTypes.TEXT,
             allowNull: false,
+            defaultValue: '/public/images/imagem_padrao_jogo.png',
             field: 'image_path'
         },
 

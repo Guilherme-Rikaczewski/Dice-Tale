@@ -1,7 +1,6 @@
 const sequelize = require('../config/database')
 const User = require('./userModel')(sequelize)
 const Game = require('./gameModel')(sequelize)
-const Role = require('./roleModel')(sequelize)
 const GameRule = require('./gameRuleModel')(sequelize)
 const Sheet = require('./sheetModel')(sequelize)
 const SheetAccess = require('./sheetAccessModel')(sequelize)
@@ -24,12 +23,8 @@ Game.hasMany(GameRule, { foreignKey: 'idGame' })
 Game.hasMany(Sheet, { foreignKey: 'gameId' })
 Game.hasMany(Token, { foreignKey: 'gameId' })
 
-// Relações de Role
-Role.hasMany(GameRule, { foreignKey: 'idRole' })
-
 // Relações de GameRule
 GameRule.belongsTo(User, { foreignKey:'idUser' })
-GameRule.belongsTo(Role, { foreignKey: 'idRole' })
 GameRule.belongsTo(Game, { foreignKey: 'idGame' })
 
 // Relações de Sheets
@@ -56,7 +51,6 @@ TokenBar.belongsTo(Token, { foreignKey: 'tokenId' })
 module.exports = { 
     User, 
     Game, 
-    Role, 
     GameRule,
     Sheet,
     SheetAccess,
