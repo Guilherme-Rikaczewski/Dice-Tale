@@ -1,5 +1,6 @@
 const { Game, GameRule, SheetAccess, Sheet } = require("../models/index")
 const { isIdInvalid, notExist, isCodeInvalid } = require('../utils/validators')
+const { Op } = require('sequelize')
 
 
 function generateCode(length = 6){
@@ -220,6 +221,38 @@ async function deleteGame(req, res) {
 }
 
 
+async function getGameByName(req, res) {
+    try{
+        if (isIdInvalid(req.userId)){
+            res.status(400).json({error: 'Sorry, invalid user ID'})
+        }
+        const recentGames = await GameRule.findAll({
+            where:{ userId: req.userId },
+            include: [
+                {
+                    model: Game,
+                    attributes: ['name', 'code', 'imagePath'],
+                    where: { [Op.iLike]: `%${req.query.name}%` }
+                }
+            ],
+            order: [['lastAccess', 'DESC']],
+            limit: 9
+        })
 
-module.exports={ createGame, getGameByCode, updateGame, deleteGame, getGameRule, getRecentGames, joinGame}
+        const games = recentGames.map((gr)=>{
+            return {
+                code: gr.Game.code,
+                name: gr.Game.name,
+                imagePath: gr.Game.imagePath,
+            }
+        })
+        
+        res.status(200).json(games)
+    } catch (err) {
+        res.status(500).json({error: err.message})
+    }
+}
+
+
+module.exports={ createGame, getGameByCode, updateGame, deleteGame, getGameRule, getRecentGames, joinGame, getGameByName}
 
