@@ -27,7 +27,7 @@ async function genereteUniqueGameCode() {
 
 async function createGame(req, res) {
     try{
-        req.body.code = genereteUniqueGameCode()
+        req.body.code = await genereteUniqueGameCode()
         const game = await Game.create(req.body)
 
         const gameRuleData = {
