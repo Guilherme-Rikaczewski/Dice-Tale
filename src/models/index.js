@@ -14,18 +14,18 @@ const TokenBar = require('./tokenBarModel')(sequelize)
 // hasMany --> usado no lado que é referenciado pela FK --> referencia fk da tabela passada como parametro
 
 // Relações de User
-User.hasMany(GameRule, { foreignKey: 'idUser' })
+User.hasMany(GameRule, { foreignKey: 'userId' })
 User.hasMany(TokenAccess, { foreignKey: 'userId' })
 User.hasMany(SheetAccess, { foreignKey: 'userId' })
 
 // Relações de Game
-Game.hasMany(GameRule, { foreignKey: 'idGame' })
+Game.hasMany(GameRule, { foreignKey: 'gameId' })
 Game.hasMany(Sheet, { foreignKey: 'gameId' })
 Game.hasMany(Token, { foreignKey: 'gameId' })
 
 // Relações de GameRule
-GameRule.belongsTo(User, { foreignKey:'idUser' })
-GameRule.belongsTo(Game, { foreignKey: 'idGame' })
+GameRule.belongsTo(User, { foreignKey:'userId' })
+GameRule.belongsTo(Game, { foreignKey: 'gameId' })
 
 // Relações de Sheets
 Sheet.hasMany(SheetAccess, { foreignKey: 'sheetId' })

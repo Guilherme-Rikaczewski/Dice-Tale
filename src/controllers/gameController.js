@@ -256,19 +256,20 @@ async function getGameByName(req, res) {
         if (isIdInvalid(req.userId)){
             return res.status(400).json({error: 'Sorry, invalid user ID'})
         }
+        console.log("passou 1")
         const recentGames = await GameRule.findAll({
             where:{ userId: req.userId },
             include: [
                 {
                     model: Game,
                     attributes: ['name', 'code', 'imagePath'],
-                    where: { [Op.iLike]: `%${req.query.name}%` }
+                    where: { name: {[Op.iLike]: `%${req.query.name}%`} }
                 }
             ],
             order: [['lastAccess', 'DESC']],
             limit: 9
         })
-
+        console.log("passou 2")
         const games = recentGames.map((gr)=>{
             return {
                 code: gr.Game.code,

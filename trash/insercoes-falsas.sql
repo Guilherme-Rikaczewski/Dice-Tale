@@ -1,49 +1,72 @@
--- 1) ROLES
-INSERT INTO roles (role)
-SELECT chr(65 + (random() * 25)::int)  -- gera letras A-Z
-FROM generate_series(1, 1000);
-
--- 2) GAME_IMAGES
-INSERT INTO game_images (image_name, image_path, image_size_game)
+-- 1. Inserir 1000 jogos
+INSERT INTO games (name_game, game_code, image_path)
 SELECT 
-    'game_img_' || gs,
-    '/images/games/game_' || gs || '.png',
-    round((random() * 5000)::numeric, 2)  -- até 5000 KB
-FROM generate_series(1, 1000) gs;
-
--- 3) PROFILE_PICTURES
-INSERT INTO profile_pictures (image_name, image_path, image_size)
-SELECT 
-    'profile_pic_' || gs,
-    '/images/profiles/profile_' || gs || '.png',
-    round((random() * 3000)::numeric, 2)  -- até 3000 KB
-FROM generate_series(1, 1000) gs;
-
--- 4) GAMES
-INSERT INTO games (id_game_image_games, name_game, page_link, game_code)
-SELECT 
-    (random() * 999 + 1)::int,  -- id válido de game_images
     'Game ' || gs,
-    'https://example.com/game/' || gs,
-    md5(random()::text)  -- código único
-FROM generate_series(1, 1000) gs;
+    md5(random()::text),
+    '/public/images/imagem_padrao_jogo.png'
+FROM generate_series(1,1000) AS gs;
 
--- 5) USERS
-INSERT INTO users (id_profile_pic_path, email_user, username, hours_played, password_hash)
+-- 2. Inserir 1000 usuários
+INSERT INTO users (email_user, username, password_hash, profile_pic_name, profile_pic_path)
 SELECT 
-    (random() * 999 + 1)::int,  -- id válido de profile_pictures
-    'user' || gs || '@mail.com',
-    'username_' || gs,
-    (random() * 2000)::int,  -- horas jogadas
-    md5(random()::text)      -- senha fake
-FROM generate_series(1, 1000) gs;
+    'user' || gs || '@example.com',
+    'User' || gs,
+    md5(random()::text),
+    'imagem_padrao.png',
+    '/public/images/imagem_padrao.png'
+FROM generate_series(1,1000) AS gs;
 
--- 6) GAME_RULES
-INSERT INTO game_rules (id_user_gamerules, id_roles_gamerules, id_games_gamerules)
+-- 3. Inserir 1000 game_rules
+INSERT INTO game_rules (id_user_gamerules, game_role, id_games_gamerules, last_access)
+SELECT 
+    (floor(random() * 1000 + 1))::int, -- usuário aleatório
+    substr('ABCDE', (floor(random()*5+1))::int, 1), -- papel aleatório
+    (floor(random() * 1000 + 1))::int, -- jogo aleatório
+    NOW() - (floor(random()*1000) || ' minutes')::interval
+FROM generate_series(1,1000);
+
+-- 4. Inserir 1000 sheets
+INSERT INTO sheets (id_game_sheets, name_sheet, current_hitpoints, max_hitpoints, ac, inspiration)
 SELECT
-    (random() * 999 + 1)::int,  -- id de users
-    (random() * 999 + 1)::int,  -- id de roles
-    (random() * 999 + 1)::int   -- id de games
-FROM generate_series(1, 1000);
+    (floor(random() * 1000 + 1))::int, -- jogo aleatório
+    'Sheet ' || gs,
+    (floor(random() * 50 + 1))::int,
+    (floor(random() * 50 + 50))::int,
+    (floor(random() * 20 + 1))::int,
+    (random() < 0.5)
+FROM generate_series(1,1000) AS gs;
 
-select * from users limit 1;
+-- 5. Inserir 1000 sheets_access
+INSERT INTO sheets_access (id_sheet, id_user, owner, last_access)
+SELECT 
+    (floor(random() * 1000 + 1))::int, -- sheet aleatória
+    (floor(random() * 1000 + 1))::int, -- user aleatório
+    (random() < 0.1), -- só 10% são donos
+    NOW() - (floor(random()*1000) || ' minutes')::interval
+FROM generate_series(1,1000);
+
+-- 6. Inserir 1000 tokens
+INSERT INTO tokens (id_games_token, id_sheets_token, token_name, show_token_name_check)
+SELECT 
+    (floor(random() * 1000 + 1))::int, -- jogo aleatório
+    (floor(random() * 1000 + 1))::int, -- sheet aleatória
+    'Token ' || gs,
+    (random() < 0.5)
+FROM generate_series(1,1000) AS gs;
+
+-- 7. Inserir 1000 token_bars
+INSERT INTO token_bars (id_token_bar, current_value, max_value, data_sheet_link, hex_code)
+SELECT 
+    (floor(random() * 1000 + 1))::int, -- token aleatório
+    (floor(random() * 50 + 1))::int,
+    (floor(random() * 50 + 50))::int,
+    '/sheet/' || (floor(random()*1000+1))::int,
+    substr(md5(random()::text),1,6)
+FROM generate_series(1,1000);
+
+-- 8. Inserir 1000 tokens_access
+INSERT INTO tokens_access (id_token_access, id_user_access)
+SELECT 
+    (floor(random() * 1000 + 1))::int, -- token aleatório
+    (floor(random() * 1000 + 1))::int -- user aleatório
+FROM generate_series(1,1000);
