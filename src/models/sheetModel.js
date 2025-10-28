@@ -16,10 +16,13 @@ module.exports=(sequelize)=>{
         },
         name: {
             type: DataTypes.TEXT,
+            allowNull: false,
+            defaultValue: "sheet name",
             field: 'name_sheet'
         },
         imagePath: {
             type: DataTypes.TEXT,
+            allowNull: false,
             defaultValue: '/path/da/imagem/padrao.png',
             field: 'image_sheet_path'
         },

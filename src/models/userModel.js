@@ -42,16 +42,8 @@ module.exports = (sequelize) => {
             allowNull: false,
             field: 'password_hash'
         },
-        profilePicName: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            defaultValue: 'imagem_padrao.png',
-            field: 'profile_pic_name'
-        },
         profilePicPath: {
             type: DataTypes.TEXT,
-            allowNull: false,
-            defaultValue: '/public/images/imagem_padrao.png',
             field: 'profile_pic_path'
         },
     },

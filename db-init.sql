@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS games (
     id_game SERIAL PRIMARY KEY,
     name_game VARCHAR(100) NOT NULL, 
     game_code TEXT UNIQUE NOT NULL,
-    image_path TEXT NOT NULL DEFAULT '/public/images/imagem_padrao_jogo.png'
+    image_path TEXT 
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -13,8 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     hours_played INTEGER DEFAULT 0,
     password_hash TEXT NOT NULL,
-    profile_pic_name TEXT NOT NULL DEFAULT 'imagem_padrao.png',
-    profile_pic_path TEXT NOT NULL DEFAULT '/public/images/imagem_padrao.png'
+    profile_pic_path TEXT 
 );
 
 CREATE TABLE IF NOT EXISTS game_rules (
@@ -31,8 +30,8 @@ CREATE TABLE IF NOT EXISTS game_rules (
 CREATE TABLE IF NOT EXISTS sheets (
     id_sheet SERIAL PRIMARY KEY,
     id_game_sheets INT,
-    name_sheet TEXT,
-    image_sheet_path TEXT NOT NULL DEFAULT '/path/da/imagem/padrao.png',
+    name_sheet TEXT NOT NULL DEFAULT "sheet name",
+    image_sheet_path TEXT NOT NULL DEFAULT '/images/defaults/default_token.png',
     current_hitpoints INT,
     max_hitpoints INT,
     ac INT,
@@ -59,7 +58,7 @@ CREATE TABLE IF NOT EXISTS sheets (
     proficiencies JSONB NOT NULL DEFAULT '{}', -- proeficiencias
     other_skills JSONB NOT NULL DEFAULT '{}', -- outras proeficiencias e idiomas
     items JSONB NOT NULL DEFAULT '{}', -- itens da ficha
-    FOREIGN KEY (id_game_sheets) REFERENCES games(id_game)
+    FOREIGN KEY (id_game_sheets) REFERENCES games(id_game) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS sheets_access (
@@ -76,7 +75,7 @@ CREATE TABLE IF NOT EXISTS tokens (
     id_token SERIAL PRIMARY KEY,
     id_games_token INT NOT NULL,
     id_sheets_token INT,
-    image_token_path TEXT NOT NULL DEFAULT '/path/da/imagem/padrao.png',
+    image_token_path TEXT NOT NULL DEFAULT '/images/defaults/default_token.png',
     token_name VARCHAR(50),
     show_token_name_check BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (id_games_token) REFERENCES games(id_game) ON DELETE CASCADE,

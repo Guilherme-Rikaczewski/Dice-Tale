@@ -3,11 +3,11 @@ const userController = require('../controllers/userController')
 const {authMiddleware} = require('../utils/authMiddleware')
 const router = express.Router()
 
-router.post('/', userController.createUser)
-router.get('/', authMiddleware, userController.getUserById)
-router.get('/profilepic', authMiddleware, userController.getProfilePic)
-router.patch('/', authMiddleware, userController.updateUser)
-router.delete('/', authMiddleware, userController.deleteUser)
+router.post('/', userController.createUser) //testad
+router.get('/', authMiddleware, userController.getUserById) //testado
+router.get('/profilepic', authMiddleware, userController.getProfilePic) //testado
+router.patch('/', authMiddleware, userController.updateUser) //testado
+router.delete('/', authMiddleware, userController.deleteUser) //testado
 
 // router.get('/', userController.getView)
 
