@@ -7,7 +7,7 @@ router.post('/', userController.createUser) //testad
 router.get('/', authMiddleware, userController.getUserById) //testado
 router.get('/profilepic', authMiddleware, userController.getProfilePic) //testado
 router.patch('/', authMiddleware, userController.updateUser) //testado
-router.delete('/', authMiddleware, userController.deleteUser)
+router.delete('/', authMiddleware, userController.deleteUser) //testado
 
 // router.get('/', userController.getView)
 

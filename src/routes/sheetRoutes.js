@@ -10,8 +10,6 @@ router.get('/recent',  authMiddleware, sheetController.getRecentSheets) //testad
 router.patch('/',  authMiddleware, sheetController.updateSheet) //testado
 router.delete('/', authMiddleware, sheetController.deleteSheet) //testado
 
-// router.get('/', userController.getView)
-
 
 module.exports = router
 

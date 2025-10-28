@@ -20,7 +20,7 @@ User.hasMany(SheetAccess, { foreignKey: 'userId' })
 
 // Relações de Game
 Game.hasMany(GameRule, { foreignKey: 'gameId' })
-Game.hasMany(Sheet, { foreignKey: 'gameId' })
+Game.hasMany(Sheet, { foreignKey: 'gameId', onDelete: 'CASCADE' })
 Game.hasMany(Token, { foreignKey: 'gameId' })
 
 // Relações de GameRule

@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS sheets (
     proficiencies JSONB NOT NULL DEFAULT '{}', -- proeficiencias
     other_skills JSONB NOT NULL DEFAULT '{}', -- outras proeficiencias e idiomas
     items JSONB NOT NULL DEFAULT '{}', -- itens da ficha
-    FOREIGN KEY (id_game_sheets) REFERENCES games(id_game)
+    FOREIGN KEY (id_game_sheets) REFERENCES games(id_game) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS sheets_access (
