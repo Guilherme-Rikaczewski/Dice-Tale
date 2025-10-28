@@ -23,8 +23,6 @@ module.exports = (sequelize)=>{
         },
         imagePath: {
             type: DataTypes.TEXT,
-            allowNull: false,
-            defaultValue: '/public/images/imagem_padrao_jogo.png',
             field: 'image_path'
         },
 
