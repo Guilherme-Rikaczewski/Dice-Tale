@@ -37,7 +37,7 @@ async function getProfilePic(req, res) {
         }
 
         const user = await User.findByPk(req.userId, {
-            attributes: ['profilePicName', 'profilePicPath']
+            attributes: ['profilePicPath']
         })
 
         if (notExist(user)) {
