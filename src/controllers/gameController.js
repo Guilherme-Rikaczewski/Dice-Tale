@@ -161,7 +161,7 @@ async function getRecentGames(req, res) {
             include: [
                 {
                     model: Game,
-                    attributes: ['name', 'code', 'imagePath'],
+                    attributes: ['id', 'name', 'code', 'imagePath'],
                 }
             ],
             order: [['lastAccess', 'DESC']],
@@ -170,6 +170,7 @@ async function getRecentGames(req, res) {
 
         const games = recentGames.map((gr)=>{
             return {
+                id: gr.Game.id,
                 code: gr.Game.code,
                 name: gr.Game.name,
                 imagePath: gr.Game.imagePath,
