@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS game_rules (
 CREATE TABLE IF NOT EXISTS sheets (
     id_sheet SERIAL PRIMARY KEY,
     id_game_sheets INT,
-    name_sheet TEXT NOT NULL DEFAULT "sheet name",
+    name_sheet TEXT NOT NULL DEFAULT 'sheet name',
     image_sheet_path TEXT NOT NULL DEFAULT '/images/defaults/default_token.png',
     current_hitpoints INT,
     max_hitpoints INT,
