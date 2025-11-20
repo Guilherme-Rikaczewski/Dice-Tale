@@ -1,7 +1,7 @@
 const { createClient } = require('redis')
 const crypto = require('crypto')
 const { notExist } = require('../utils/validators')
-require('dotenv').config()
+
 
 const client = createClient({
     url: process.env.REDIS_URL
