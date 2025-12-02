@@ -4,7 +4,7 @@ const { notExist } = require('../utils/validators')
 require('dotenv').config()
 
 const client = createClient({
-    url: process.env.REDIS_URL
+    url: `redis://default:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
 })
 client.connect()
 
