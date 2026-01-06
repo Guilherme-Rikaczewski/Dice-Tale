@@ -79,4 +79,31 @@ async function refresh(req, res) {
     }
 }
 
-module.exports={ login, refresh }
+async function logout(req, res) {
+    try {
+        const refreshToken = req.cookies.refreshToken
+        if (notExist(refreshToken)){
+            return res.status(401).json({error:"No refresh token."})
+        }
+
+        const userId = await validateRefreshToken(refreshToken)
+        if (notExist(userId)){
+            return res.status(200).json({error: "Logged out."})
+        }
+
+        await deleteRefreshToken(refreshToken)
+
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            secure: false,  // MUDA PARA TRUE QUANDO FOR RODAR EM PRODUÇÃO
+            sameSite: "strict",
+        })
+
+        return res.status(200).json({message: "Logout successful."})
+
+    }catch (err) {
+        res.status(500).json({error: err.message})
+    }
+}
+
+module.exports={ login, refresh, logout}
