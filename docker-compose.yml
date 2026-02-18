@@ -1,17 +1,25 @@
 version: "3.8"
 
 services:
-  app:
-    build: .
-    container_name: dicetale_app
+  frontend:
+    build: ./Front-End-Dice-Tales
+    container_name: dicetale_frontend
     ports:
-      - "${SERVER_PORT}:3000"
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+  backend:
+    build: ./Dice-Tale-Backend
+    container_name: dicetale_backend
     depends_on:
       - postgres
       - redis
     env_file:
       - .env
     restart: always
+
   postgres:
     image: postgres:17.5
     container_name: postgres_dicetale
