@@ -15,10 +15,10 @@ app.use(cors())
 app.use(cookieParser()) // req.cookies
 app.use(express.json()) // req.body
 
-app.use('/users', userRoutes)
-app.use('/auth', authRoutes)
-app.use('/sheets', sheetRouter)
-app.use('/games', gameRouter)
+app.use('/api/users', userRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/sheets', sheetRouter)
+app.use('/api/games', gameRouter)
 
 app.use((req, res)=>{
     res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
