@@ -7,7 +7,8 @@ async function createUser(req, res) {
         const user = await User.create(req.body)
         res.status(201).json(user)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
@@ -15,25 +16,26 @@ async function createUser(req, res) {
 async function getUserById(req, res) {
     try{
         if (isIdInvalid(req.userId)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+            return res.status(400).json({error: 'Invalid user.'})
         }
         const user = await User.findByPk(req.userId, {
             attributes: ['email', 'username', 'hoursPlayed']
         })
         if (notExist(user)) {
-            return res.status(404).json({error: 'Sorry, user not found'})
+            return res.status(404).json({error: 'User not found.'})
         }
 
         res.status(200).json(user)
     }catch(err){
-        res.status(500).json({error: err.message})
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
 async function getProfilePic(req, res) {
     try{
         if (isIdInvalid(req.userId)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+            return res.status(400).json({error: 'Invalid user.'})
         }
 
         const user = await User.findByPk(req.userId, {
@@ -41,12 +43,13 @@ async function getProfilePic(req, res) {
         })
 
         if (notExist(user)) {
-            return res.status(404).json({error: 'Sorry, user not found'})
+            return res.status(404).json({error: 'User not found.'})
         }
 
         res.status(200).json(user)
     }catch (err) {
-        res.status(500).json({error:err.message})
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
     
 }
@@ -55,11 +58,11 @@ async function getProfilePic(req, res) {
 async function updateUser(req, res) {
     try{
         if (isIdInvalid(req.userId)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+            return res.status(400).json({error: 'Invalid user.'})
         }
         const user = await User.findByPk(req.userId)
         if (notExist(user)) {
-            return res.status(404).json({error: 'Sorry, user not found'})
+            return res.status(404).json({error: 'User not found.'})
 
         }
 
@@ -67,7 +70,8 @@ async function updateUser(req, res) {
         res.status(200).json(user)
 
     } catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
 
     }
 }
@@ -76,17 +80,18 @@ async function updateUser(req, res) {
 async function deleteUser(req, res) {
     try{
         if (isIdInvalid(req.userId)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+            return res.status(400).json({error: 'Invalid user.'})
         }
         const user = await User.findByPk(req.userId)
         if (notExist(user)){
-            return res.status(404).json({error: 'Sorry, user not found'})
+            return res.status(404).json({error: 'User not found.'})
         }
 
         await user.destroy()
         res.status(204).send()
     } catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 

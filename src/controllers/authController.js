@@ -40,7 +40,8 @@ async function login(req, res) {
 
 
     } catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({error: err.message}) pra dev
+        res.status(500).json({error: "Internal server error."})
     }
 }
 
@@ -48,12 +49,12 @@ async function refresh(req, res) {
     try {
         const refreshToken = req.cookies.refreshToken
         if (notExist(refreshToken)){
-            return res.status(401).json({error:"No refresh token."})
+            return res.status(401).json({error:"Invalid token."})
         }
 
         const userId = await validateRefreshToken(refreshToken)
         if (notExist(userId)){
-            return res.status(403).json({error: "Invalid refresh token."})
+            return res.status(403).json({error: "Invalid token."})
         }
 
         
@@ -75,7 +76,8 @@ async function refresh(req, res) {
         }).status(200).json({ token })
 
     }catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({error: err.message}) pra dev
+        res.status(500).json({error: "Internal server error."})
     }
 }
 
@@ -83,12 +85,12 @@ async function logout(req, res) {
     try {
         const refreshToken = req.cookies.refreshToken
         if (notExist(refreshToken)){
-            return res.status(401).json({error:"No refresh token."})
+            return res.status(401).json({error:"Invalid token."})
         }
 
         const userId = await validateRefreshToken(refreshToken)
         if (notExist(userId)){
-            return res.status(200).json({error: "Logged out."})
+            return res.status(200).json({error: "Invalid out."})
         }
 
         await deleteRefreshToken(refreshToken)
@@ -102,7 +104,8 @@ async function logout(req, res) {
         return res.status(200).json({message: "Logout successful."})
 
     }catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({error: err.message}) pra dev
+        res.status(500).json({error: "Internal server error."})
     }
 }
 
