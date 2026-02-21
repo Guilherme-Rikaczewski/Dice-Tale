@@ -14,7 +14,8 @@ async function createSheet(req, res) {
         const sheetAccess = await SheetAccess.create(access)
         res.status(201).json({sheet: sheet, sheetAcces: sheetAccess})
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
@@ -22,11 +23,11 @@ async function createSheet(req, res) {
 async function getSheetById(req, res) {
     try {
         if (isIdInvalid(req.body.id)){
-            return res.status(400).json({error: 'Sorry, invalid sheet ID'})
+            return res.status(400).json({error: 'Invalid sheet.'})
         }
         const sheet = await Sheet.findByPk(req.body.id)
         if (notExist(sheet)){
-            return res.status(404).json({error: 'Sorry, sheet not found'})
+            return res.status(404).json({error: 'Sheet not found'})
         }
 
         await SheetAccess.update({lastAccess: new Date()}, {
@@ -38,7 +39,8 @@ async function getSheetById(req, res) {
         
         res.status(200).json(sheet)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
@@ -46,7 +48,7 @@ async function getAllSheets(req, res) {
     try {
         const userId = req.userId
         if (isIdInvalid(userId)){
-            return res.status(400).json({error: 'Sorry, invalid user ID'})
+            return res.status(400).json({error: 'Invalid user.'})
         }
         const allSheets = await SheetAccess.findAll({
             where: {userId},
@@ -90,14 +92,15 @@ async function getAllSheets(req, res) {
         
         res.status(200).json(sheets)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
 async function getRecentSheets(req, res) {
     try {
         if (isIdInvalid(req.userId)){
-            return res.status(400).json({error: 'Sorry, invalid user ID'})
+            return res.status(400).json({error: 'Invalid user.'})
         }
         const recentSheets = await SheetAccess.findAll({
             where:{ userId: req.userId },
@@ -129,41 +132,44 @@ async function getRecentSheets(req, res) {
         
         res.status(200).json(sheets)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
 async function updateSheet(req, res) {
     try{
         if (isIdInvalid(req.body.id)){
-            return res.status(400).json({error: 'Sorry, invalid sheet ID'})
+            return res.status(400).json({error: 'Invalid sheet.'})
         }
         const sheet = await Sheet.findByPk(req.body.id)
         if (notExist(sheet)){
-            return res.status(404).json({error: 'Sorry, sheet not found'})
+            return res.status(404).json({error: 'Sheet not found'})
         }
 
         await sheet.update(req.body)
         res.status(200).json(sheet)
     }catch(err){
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
 async function deleteSheet(req, res) {
     try{
         if (isIdInvalid(req.body.id)){
-            return res.status(400).json({error: 'Sorry, invalid sheet ID'})
+            return res.status(400).json({error: 'Invalid sheet.'})
         }
         const sheet = await Sheet.findByPk(req.body.id)
         if (notExist(sheet)){
-            return res.status(404).json({error: 'Sorry, sheet not found'})
+            return res.status(404).json({error: 'Sheet not found'})
         }
 
         await sheet.destroy()
         res.status(204).send()
     }catch(err){
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 

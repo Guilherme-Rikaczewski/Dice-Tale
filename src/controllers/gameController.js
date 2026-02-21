@@ -39,21 +39,22 @@ async function createGame(req, res) {
 
         res.status(201).json({game: game, gameRule: gameRule})
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
 async function joinGame(req, res) {
     try {
         if (isCodeInvalid(req.params.code)) {
-            return res.status(400).json({ error: 'Sorry, invalid game code' })
+            return res.status(400).json({ error: 'Invalid game code' })
         }
         const game = await Game.findOne({
             where: { code: req.params.code },
             attributes: ['id']
         })
         if (notExist(game)) {
-            return res.status(404).json({ error: 'Sorry, game not found' })
+            return res.status(404).json({ error: 'Game not found' })
         }
 
         const findRule = await GameRule.findOne({
@@ -75,7 +76,8 @@ async function joinGame(req, res) {
         const gameRule = await GameRule.create(gameRuleData)
         res.status(201).json(gameRule)
     } catch(err){
-        res.status(500).json({error: err.message})
+        // res.status(500).json({error: err.message})
+        res.status(500).json({error: 'Internal server error.'})
     }
 
 }
@@ -84,14 +86,14 @@ async function joinGame(req, res) {
 async function getGameByCode(req, res) {
     try{
         if (isCodeInvalid(req.params.code)){
-            return res.status(400).json({error: 'Sorry, invalid game code'})
+            return res.status(400).json({error: 'Invalid game code'})
         }
         const game = await Game.findOne({
             where: {code: req.params.code},
             attributes: ['id']
         })
         if (notExist(game)) {
-            return res.status(404).json({error: 'Sorry, game not found'})
+            return res.status(404).json({error: 'Game not found'})
         }
 
         const allSheets = await SheetAccess.findAll({
@@ -124,7 +126,8 @@ async function getGameByCode(req, res) {
 
         res.status(200).json({gameData: gameData, gameRule: updatedRow[0]})
     }catch(err){
-        res.status(500).json({error: err.message})
+        // res.status(500).json({error: err.message})
+        res.status(500).json({error: 'Internal server error.'})
     }
 }
 
@@ -133,7 +136,7 @@ async function getGameRule(req, res) {
         const gameId = req.body.id
         const userId = req.userId
         if (isIdInvalid(gameId)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+            return res.status(400).json({error: 'Invalid game.'})
         }
 
         const gameRules = await GameRule.findOne({
@@ -141,12 +144,13 @@ async function getGameRule(req, res) {
         })
 
         if (notExist(gameRules)) {
-            return res.status(404).json({error: 'Sorry, game not found'})
+            return res.status(404).json({error: 'Game or user not found.'})
         }
 
         res.status(200).json(gameRules)
     }catch (err) {
-        res.status(500).json({error:err.message})
+        // res.status(500).json({error:err.message})
+        res.status(500).json({error: 'Internal server error.'})
     }
     
 }
@@ -154,7 +158,7 @@ async function getGameRule(req, res) {
 async function getRecentGames(req, res) {
     try {
         if (isIdInvalid(req.userId)){
-            res.status(400).json({error: 'Sorry, invalid user ID'})
+            res.status(400).json({error: 'Invalid user.'})
         }
         const recentGames = await GameRule.findAll({
             where:{ userId: req.userId },
@@ -179,14 +183,15 @@ async function getRecentGames(req, res) {
         
         res.status(200).json(games)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
 async function getAllGames(req, res) {
     try {
         if (isIdInvalid(req.userId)){
-            return res.status(400).json({error: 'Sorry, invalid user ID'})
+            return res.status(400).json({error: 'Invalid user'})
         }
         const allGames = await GameRule.findAll({
             where:{ userId: req.userId },
@@ -209,7 +214,8 @@ async function getAllGames(req, res) {
         
         res.status(200).json(games)
     } catch (err) {
-        res.status(500).json({ error: err.message })
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
@@ -217,18 +223,19 @@ async function getAllGames(req, res) {
 async function updateGame(req, res) {
     try{
         if (isIdInvalid(req.body.id)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+            return res.status(400).json({error: 'Invalid game.'})
         }
         const game = await Game.findByPk(req.body.id)
         if (notExist(game)) {
-            return res.status(404).json({error: 'Sorry, game not found'})
+            return res.status(404).json({error: 'Game not found'})
         }
 
         await game.update(req.body)
         res.status(200).json(game)
 
     } catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
 
     }
 }
@@ -237,17 +244,18 @@ async function updateGame(req, res) {
 async function deleteGame(req, res) {
     try{
         if (isIdInvalid(req.body.id)){
-            return res.status(400).json({error: 'Sorry, invalid ID'})
+            return res.status(400).json({error: 'Invalid game'})
         }
         const game = await Game.findByPk(req.body.id)
         if (notExist(game)){
-            return res.status(404).json({error: 'Sorry, game not found'})
+            return res.status(404).json({error: 'Game not found'})
         }
 
         await game.destroy()
         res.status(204).send()
     } catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
@@ -255,9 +263,8 @@ async function deleteGame(req, res) {
 async function getGameByName(req, res) {
     try{
         if (isIdInvalid(req.userId)){
-            return res.status(400).json({error: 'Sorry, invalid user ID'})
+            return res.status(400).json({error: 'Invalid user'})
         }
-        console.log("passou 1")
         const recentGames = await GameRule.findAll({
             where:{ userId: req.userId },
             include: [
@@ -270,7 +277,6 @@ async function getGameByName(req, res) {
             order: [['lastAccess', 'DESC']],
             limit: 9
         })
-        console.log("passou 2")
         const games = recentGames.map((gr)=>{
             return {
                 code: gr.Game.code,
@@ -281,7 +287,8 @@ async function getGameByName(req, res) {
         
         res.status(200).json(games)
     } catch (err) {
-        res.status(500).json({error: err.message})
+        // res.status(500).json({ error: err.message })
+        res.status(500).json({ error: 'Internal server error.' })
     }
 }
 
